@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/User.js";
+import { UserSchema } from "../models/userSchema.js";
 import dotenv from 'dotenv';
 dotenv.config();
 export const isAuth = async (req, res, next) => {
@@ -13,7 +13,7 @@ export const isAuth = async (req, res, next) => {
 
     const decodedData = jwt.verify(token, process.env.Jwt_Sec);
 
-    req.user = await User.findById(decodedData._id);
+    req.user = await UserSchema.findById(decodedData._id);
 
     next();
   } catch (error) {
@@ -22,3 +22,21 @@ export const isAuth = async (req, res, next) => {
     });
   }
 };
+
+
+export const isAdmin = async (req,res, next)=>{
+  try {
+     if(req.user.role !== 'Admin'){
+       return res.send({
+          status:403,
+          message:'user is not admin'
+        })
+     }
+     next();
+  } catch (error) {
+      return res.send({
+      status:500,
+      message:error.message
+    })
+  }
+}
