@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-
+import profile from "../../assets/images/profile.png"
 const testimonials = [
   {
     name: "Alice Johnson",
@@ -13,6 +13,12 @@ const testimonials = [
     role: "Product Manager",
     testimonial:
       "I love how intuitive and user-friendly the UI is. The experience has been seamless.",
+  },
+  {
+    name: "Emma Wilson",
+    role: "UX Designer",
+    testimonial:
+      "The community and resources provided here are outstanding. Five stars from me!",
   },
   {
     name: "Emma Wilson",
@@ -39,7 +45,7 @@ const TestimonialSection = () => {
 
   return (
     <section style={sectionStyle}>
-      <h2 style={headerStyle}>What Our Students Say</h2>
+      <h2 style={headerStyle}>What Our Student Says</h2>
       <motion.div
         style={containerStyle}
         variants={containerVariants}
@@ -48,6 +54,9 @@ const TestimonialSection = () => {
       >
         {testimonials.map((item, index) => (
           <motion.div key={index} style={testimonialCardStyle} variants={itemVariants}>
+            <div style={profileStyle}>
+              <img src={profile} alt="profile-icon" width={50}/>
+            </div>
             <p style={testimonialTextStyle}>"{item.testimonial}"</p>
             <h4 style={nameStyle}>{item.name}</h4>
             <p style={roleStyle}>{item.role}</p>
@@ -65,9 +74,13 @@ const sectionStyle = {
   backgroundColor: "#f5f5f5",
   borderRadius: "10px",
   margin: "20px auto",
-  maxWidth: "800px",
+  padding:"10px 20px",
+  maxWidth: "1100px",
 };
-
+ const profileStyle ={
+  display:"flex",
+  justifyContent:"center"
+ };
 const headerStyle = {
   fontSize: "28px",
   marginBottom: "30px",

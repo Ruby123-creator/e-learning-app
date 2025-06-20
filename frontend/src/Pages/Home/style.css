@@ -4,6 +4,9 @@
   
   .section{
     display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 .containerStyle{
         width: 600px;
@@ -35,53 +38,75 @@
 .right-div{
     width: 40%;
 }
+.enquiry{
+  padding: 10px 100px;
+}
+.about-us{
+  width: 60%;
+}
+.enquiry-form{
+  width: 35%;
+}
+/* General Container */
+.form-container {
+  max-width: 400px;
+  padding: 20px;
+  background-color: #02544f;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
 
-.enquiry-form-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .enquiry-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .enquiry-form label {
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  .enquiry-form input,
-  .enquiry-form textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  .enquiry-form button {
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .enquiry-form button:hover {
-    background-color: #45a049;
-  }
-  
+/* Heading */
+.form-container h4 {
+  text-align: center;
+  color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+
+
+/* Inputs, Select, Textarea */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 8px;
+  font-size: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #02544f;
+  box-shadow: 0 0 5px rgba(2, 84, 79, 0.3);
+}
+
+/* Submit Button */
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #03897e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #2da99f;
+}
+
+

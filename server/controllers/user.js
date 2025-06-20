@@ -57,35 +57,48 @@ export const register = TryCatch(async (req,res)=>{
 })
 
 
-export const verifyUser = TryCatch(async (req,res)=>{
-   const {otp, activationToken} = req.body;
 
-   const verify = jwt.verify(activationToken , process.env.WEBTOKENKEY);
 
-   if(!verify){
-    res.send({
-        status: 400,
-        message:"OTP Expired"
-    })
-   }
-  console.log(verify,otp ,"HOME")
-   if(parseInt(verify.otp) !== parseInt(otp)){
-    res.send({
-        status: 400,
-        message:"Incorrect Otp"
-    })
-   }
+export const verifyUser = TryCatch(async (req, res) => {
+  const { otp, activationToken } = req.body;
 
-    await UserSchema.create({
-        username: verify?.user?.username,
-        email: verify?.user?.email,
-        password: verify?.user?.password,
-    })
+  // Validate inputs
+  if (!otp || !activationToken) {
+    return res.status(400).json({ message: "OTP and activation token are required." });
+  }
 
-    res.json({
-        message: "User Registered",
-      });
-})
+  let verifiedToken;
+  try {
+    verifiedToken = jwt.verify(activationToken, process.env.WEBTOKENKEY);
+  } catch (err) {
+    return res.status(400).json({ message: "Invalid or expired activation token." });
+  }
+
+  console.log(verifiedToken, otp, "HOME");
+
+  // Verify OTP
+  if (parseInt(verifiedToken.otp, 10) !== parseInt(otp, 10)) {
+    return res.status(400).json({ message: "Incorrect OTP." });
+  }
+
+  // Check if user already exists
+  const existingUser = await UserSchema.findOne({ email: verifiedToken.user.email });
+  if (existingUser) {
+    return res.status(400).json({ message: "User already registered with this email." });
+  }
+
+  // Create new user
+  const newUser = await UserSchema.create({
+    username: verifiedToken.user.username,
+    email: verifiedToken.user.email,
+    password: verifiedToken.user.password, // Ensure passwords are hashed in your schema middleware
+  });
+
+  return res.status(201).json({
+    message: "User successfully registered.",
+    userId: newUser._id,
+  });
+});
 
 
 export const loginUser = TryCatch(async (req,res)=>{

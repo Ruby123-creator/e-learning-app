@@ -1,0 +1,79 @@
+/* Modal Container */
+.modalStyle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    h4 {
+        text-align: center;
+        color: #02544f;
+      }
+      label {
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        outline: none;
+        transition: border-color 0.3s ease;
+      }
+      input:focus {
+        border-color: #02544f;
+        box-shadow: 0 0 5px rgba(2, 84, 79, 0.3);
+      }
+      p {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+      p span {
+        color: #03897e;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      p span:hover {
+        text-decoration: underline;
+      }
+  }
+  
+
+  
+  /* Input Label */
+
+  
+  /* Submit Button */
+  .common-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #03897e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .common-btn:hover {
+    background-color: #2da99f;
+  }
+  
+  
+  

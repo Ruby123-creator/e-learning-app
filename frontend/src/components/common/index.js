@@ -1,11 +1,15 @@
 import React from 'react'
 import HeaderComp from './Header';
 import './style.css';
-const Layout = () => {
+import Footer from './Footer';
+const Layout = ({children}) => {
   return (
-    <div>
+    <>
         <HeaderComp/>
-    </div>
+        <main>{children}</main>
+        <Footer/>
+
+    </>
   )
 }
 

@@ -6,6 +6,7 @@ import bgImage from '../../assets/images/main-bg.webp';
 import './style.css'
 import TestimonialSection from './testimonial';
 import EnquiryForm from './enquiryForm';
+import AboutUs from './aboutus';
 const HomeCom = () => {
     const words = [
         "Mentors",
@@ -21,7 +22,6 @@ const HomeCom = () => {
       ];
     
       
-    
     
       const containerSize = 450; // Fixed size of the container
       const radius = containerSize / 2 - 50; // Radius of the circular motion
@@ -62,7 +62,7 @@ const HomeCom = () => {
         position: "absolute",
         top: "50%",
         left: "60%",
-        color:'black',
+        color:'#000',
         fontFamily: '"Roboto", serif',
 
         transform: "translate(-50%, -50%)",
@@ -71,7 +71,7 @@ const HomeCom = () => {
       const wordStyle = {
         fontSize: "18px",
         position: "absolute",
-        textShadow: "10px 10px 2px rgba(0, 0, 0, 0.6)", // Add shadow effect
+        textShadow: "10px 10px 2px rgba(0, 0, 0, 0.2)", // Add shadow effect
         
         transition: "all 0.1s ease-in-out", // Smooth transition for hover effects
       };
@@ -120,8 +120,14 @@ const HomeCom = () => {
         <div>
          <TestimonialSection/>
         </div>
-        <div>
-            <EnquiryForm/>
+        <div className='section enquiry'>
+          <div className='about-us'>
+           <AboutUs/>
+          </div>
+          <div className='enquiry-form'>
+          <EnquiryForm/>
+
+          </div>
         </div>
     </div>
   )

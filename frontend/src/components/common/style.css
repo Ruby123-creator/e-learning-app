@@ -36,3 +36,99 @@
     font-weight: 400;
     font-size: 15px;
 }
+/* Footer Container */
+.footer {
+    background-color: #02544f; /* Dark background */
+    color: #ffffff; /* White text */
+    padding:20px;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  /* Inner Container */
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Footer Sections */
+  .footer-section {
+    flex: 1 1 250px;
+    margin: 10px;
+  }
+  
+  /* Logo Section */
+  .logo-section .footer-logo {
+    width: 150px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-description {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* Contact Section */
+  .contact-section h3,
+  .social-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #ffffff;
+  }
+  
+  .contact-section p {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .contact-section a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+  
+  .contact-section a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Social Media Section */
+  .social-section .social-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .social-section .social-icons a {
+    color: #ffffff;
+    font-size: 20px;
+    transition: color 0.3s;
+  }
+  
+  .social-section .social-icons a:hover {
+    color: #03897e;
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    text-align: center;
+    border-top: 1px solid #ffffff;
+    font-size: 14px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .footer-section {
+      margin: 10px 0;
+      text-align: center;
+    }
+  
+    .social-section .social-icons {
+      justify-content: center;
+    }
+  }
+  

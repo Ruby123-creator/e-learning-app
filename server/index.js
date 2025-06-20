@@ -7,7 +7,7 @@ import { connectDB } from './database/db.js';
 import cors from 'cors';
 import Razorpay from 'razorpay';
 dotenv.config();
-const app = express();
+const app = express();  //Used to create the server and manage routes.
 const port = process.env.PORT||8000
 
 console.log(process.env.razor_pay_key, process.env.razor_secret_key,"CHECK::")
@@ -16,14 +16,14 @@ console.log(process.env.razor_pay_key, process.env.razor_secret_key,"CHECK::")
   key_secret: process.env.razor_secret_key
 })
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(cors());
-app.use('/uploads',express.static('uploads'));
+app.use(express.json());//Parses incoming JSON payloads.
+app.use(express.urlencoded({extended:true}));//Parses URL-encoded payloads. extended: true allows nested objects.
+app.use(cors()); //Middleware that enables CORS (Cross-Origin Resource Sharing). This allows the server to handle requests from different origins.
+app.use('/uploads',express.static('uploads'));//Serves static files from the uploads directory when requested via /uploads.
 app.get('/',(req,res)=>{
     return res.send("my server is running");
 })
-
+// These are separate route handlers that organize endpoints related to users, courses, and admins.
 app.use('/api',userRoutes);
 app.use('/api',courseRouter);
 app.use('/api', adminRouter);
