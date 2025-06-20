@@ -17,13 +17,13 @@ const Footer = () => {
         <div className="footer-section contact-section">
           <h3>Contact Us</h3>
           <p>
-            <strong>Email:</strong> <a href="mailto:topicwiseinstitute@gmail.com">topicwiseinstitute.com</a>
+            <strong>Email:</strong> <a href="mailto:topicwiseinstitute@gmail.com">topicwiseinstitute@gmail.com</a>
           </p>
           <p>
-            <strong>Phone:</strong> <a href="tel:+91-9911412558">+91-9911-412-558</a>
+            <strong>Phone:</strong> <a href="tel:+91-9911412558">+91-97170 73123</a>
           </p>
           <p>
-            <strong>Address:</strong> 123 Education Lane, Knowledge City, Country
+            <strong>Address:</strong>  Chotpur Rd, Chotpur Colony, pusta marg, Sector 63, Noida, Chotpur, Uttar Pradesh 201307
           </p>
         </div>
 

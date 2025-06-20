@@ -34,8 +34,8 @@ const AboutUs = () => {
           initial="hidden"
           animate="visible"
         >
-          Best Coaching Centers in Noida for NEET & IIT-JEE
-          </motion.h2>
+          Our Journey: A Note from the Founder
+        </motion.h2>
         <motion.p
           style={paragraphStyle}
           variants={textVariants}
@@ -43,15 +43,23 @@ const AboutUs = () => {
           animate="visible"
           transition={{ delay: 0.3 }}
         >
-Founded in 1988, Aakash IIT & Medical has become one of the best coaching institutes in Noida and many other cities in India. This educational institution for JEE (Main), JEE (Main and Advanced), NEET-UG and Foundation and Olympiad Coaching has been producing excellent results for over 31 years.
-<br/>
-With our specialized training, we are able to help students realize their dreams and get admission in the engineering and medical colleges of their choice. Our USP is our student-centered approach and our feedback mechanism.
-<br/>
-
-The registration process at Aakash is very simple and transparent. This may vary from class to class depending on the needs of the student. The 'Direct Admission' option allows students to enter Aakash directly or by taking one of the scholarship exams held at various time intervals. 
-
-
- 
+          In 2017, I began my journey as an educator, working with various
+          well-known institutions. During this time, I closely observed a
+          critical gap in the way Science was being taught — it was largely
+          theoretical, lacking practical connection and real-life understanding.
+          Students were expected to memorize without ever seeing an experiment
+          live, and that deeply concerned me.
+          <br />
+         
+          <br />
+          In 2024, that vision took shape when I established TOPICWISE INSTITUTE
+          — a place where education is not just about books, but about
+          experiencing concepts. Whether it's conducting live science
+          experiments, solving math with smart tricks, or simplifying complex
+          Social Science topics with easy-to-remember techniques, every method
+          we use is student-focused and result-driven.
+          <br />
+         
         </motion.p>
       </motion.div>
     </section>
@@ -62,7 +70,7 @@ The registration process at Aakash is very simple and transparent. This may vary
 const sectionStyle = {
   backgroundColor: "#f5f5f5",
   textAlign: "left",
-  fontFamily:'"Quicksand",serif'
+  fontFamily: '"Quicksand",serif',
 };
 
 const contentStyle = {
@@ -75,7 +83,7 @@ const contentStyle = {
 };
 
 const headingStyle = {
-    textAlign:"center",
+  textAlign: "center",
   fontSize: "20px",
   marginBottom: "10px",
   color: "#02544f",

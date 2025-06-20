@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import img from '../../assets/images/main-img.png'
 import {color, motion} from 'framer-motion';
-import bgImage from '../../assets/images/main-bg.webp';
+
 
 import './style.css'
 import TestimonialSection from './testimonial';
 import EnquiryForm from './enquiryForm';
 import AboutUs from './aboutus';
+import Teaches from './Teachers';
+import Information from './subject';
+import Exam from './Exam';
 const HomeCom = () => {
     const words = [
         "Mentors",
@@ -117,10 +120,7 @@ const HomeCom = () => {
             </div>
 
         </div>
-        <div>
-         <TestimonialSection/>
-        </div>
-        <div className='section enquiry'>
+         <div className='section enquiry'>
           <div className='about-us'>
            <AboutUs/>
           </div>
@@ -128,6 +128,18 @@ const HomeCom = () => {
           <EnquiryForm/>
 
           </div>
+          
+        </div>
+        <div>
+         
+         <Teaches/>
+        </div>
+       
+        <div>
+          <Information/>
+        </div>
+        <div>
+          <Exam/>
         </div>
     </div>
   )
