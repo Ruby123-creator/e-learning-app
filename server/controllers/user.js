@@ -6,55 +6,41 @@ import sendMail from "../middleware/sendMail.js";
 import dotenv from 'dotenv';
 import { TryCatch } from "../middleware/tryCatch.js";
 dotenv.config();
-export const register = TryCatch(async (req,res)=>{
 
-    const {email,username,password} = req.body;
-         let userEmailExists = await UserSchema.findOne({email});
-         let userNameExists = await UserSchema.findOne({username});
-         if(userEmailExists){
-            return res.send({
-                status:400,
-                message:"Email is already exist",
-            })
-         }
-         if(userNameExists){
-            return res.send({
-                status:400,
-                message:"Username is already exist",
-            })
-         }
-         const hashedPassword = await bcrypt.hash(
-            password,
-            parseInt(process.env.SALT)
-          );
-         const user ={
-            username,
-            email,
-            password: hashedPassword
-         }
-         console.log(user ,"CHECK::::::::::")
-         const otp = Math.floor(Math.random()*1000000);
-          const activationToken = jwt.sign({
-            user,
-            otp,
 
-          },process.env.WEBTOKENKEY, {expiresIn:'5m'});
-          console.log(user,otp,activationToken ,"CHECK::::::::::")
+export const register = TryCatch(async (req, res) => {
+  const { email, username, password, phone, class: userClass } = req.body;
 
-          const data = {
-            username,
-            otp
-          }
+  const userEmailExists = await UserSchema.findOne({ email });
+  const userNameExists = await UserSchema.findOne({ username });
+  const userPhoneExists = await UserSchema.findOne({ phone });
 
-          await sendMail(email, "E LEARNING", data)
-        
-        return res.send({
-            status: 200,
-            message: "Otp send to the email",
-            activationToken
-          })
-   
-})
+  if (userEmailExists) return res.status(400).json({ message: "Email already exists" });
+  if (userNameExists) return res.status(400).json({ message: "Username already exists" });
+  if (userPhoneExists) return res.status(400).json({ message: "Phone number already exists" });
+
+  const hashedPassword = await bcrypt.hash(password, parseInt(process.env.SALT));
+
+  const user = {
+    username,
+    email,
+    password: hashedPassword,
+    phone,
+    class: userClass,
+  };
+
+  const otp = Math.floor(100000 + Math.random() * 900000); 
+
+  const activationToken = jwt.sign({ user, otp }, process.env.WEBTOKENKEY, { expiresIn: '5m' });
+
+  const mailData = { username, otp };
+  await sendMail(email, "E-LEARNING OTP Verification", mailData);
+
+  return res.status(200).json({
+    message: "OTP sent to email",
+    activationToken,
+  });
+});
 
 
 
@@ -62,43 +48,40 @@ export const register = TryCatch(async (req,res)=>{
 export const verifyUser = TryCatch(async (req, res) => {
   const { otp, activationToken } = req.body;
 
-  // Validate inputs
   if (!otp || !activationToken) {
-    return res.status(400).json({ message: "OTP and activation token are required." });
+    return res.status(400).json({ message: "OTP and token are required" });
   }
 
   let verifiedToken;
   try {
     verifiedToken = jwt.verify(activationToken, process.env.WEBTOKENKEY);
   } catch (err) {
-    return res.status(400).json({ message: "Invalid or expired activation token." });
+    return res.status(400).json({ message: "Invalid or expired token" });
   }
 
-  console.log(verifiedToken, otp, "HOME");
-
-  // Verify OTP
-  if (parseInt(verifiedToken.otp, 10) !== parseInt(otp, 10)) {
-    return res.status(400).json({ message: "Incorrect OTP." });
+  if (parseInt(verifiedToken.otp) !== parseInt(otp)) {
+    return res.status(400).json({ message: "Incorrect OTP" });
   }
 
-  // Check if user already exists
-  const existingUser = await UserSchema.findOne({ email: verifiedToken.user.email });
-  if (existingUser) {
+  const userExists = await UserSchema.findOne({ email: verifiedToken.user.email });
+  if (userExists) {
     return res.status(400).json({ message: "User already registered with this email." });
   }
 
-  // Create new user
   const newUser = await UserSchema.create({
     username: verifiedToken.user.username,
     email: verifiedToken.user.email,
-    password: verifiedToken.user.password, // Ensure passwords are hashed in your schema middleware
+    password: verifiedToken.user.password,
+    phone: verifiedToken.user.phone,
+    class: verifiedToken.user.class,
   });
 
   return res.status(201).json({
-    message: "User successfully registered.",
+    message: "User registered successfully.",
     userId: newUser._id,
   });
 });
+
 
 
 export const loginUser = TryCatch(async (req,res)=>{

@@ -12,40 +12,58 @@ const SignUpModal = ({ open, setOpen }) => {
     username: "",
     email: "",
     password: "",
+    phone: "",
+    class: "",
   });
   const [login, setLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [token,setToken] = useState('');
- const [openVerify, setOpenVerify] = useState(false)
+  const [token, setToken] = useState("");
+  const [openVerify, setOpenVerify] = useState(false);
+  const [otpData, setOtpData] = useState({});
+  const [openLoginModal, setOpenLoginModal] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    try {
-      const endpoint = login ? API_ENDPOINTS.LOGIN : API_ENDPOINTS.REGISTER;
-      const response = await axios.post(endpoint, formData);
+  try {
+    const endpoint = login ? API_ENDPOINTS.LOGIN : API_ENDPOINTS.REGISTER;
 
-      if (response.status === 200) {
-        console.log("Response data:", response.data);
+    const payload = login
+      ? {
+          loginId: formData.email,
+          password: formData.password,
+        }
+      : formData;
+
+    const response = await axios.post(endpoint, payload);
+
+    if (response.status === 200) {
+      console.log("Response data:", response.data);
+
+      if (!login) {
+        // If register, proceed with OTP verify
         setToken(response?.data?.activationToken);
-        // Handle success logic, e.g., close modal, show success message
         setOpen(false);
-
+        setOtpData(formData);
         setOpenVerify(true);
-       
+      } else {
+        // If login, handle success
+        alert("Login successful!");
+        setOpen(false);
       }
-    } catch (error) {
-      console.error("Error during sign-up/login:", error);
-      // Show error feedback to the user
-    } finally {
-      setIsLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("Error during sign-up/login:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   return (
     <div>
@@ -75,14 +93,48 @@ const SignUpModal = ({ open, setOpen }) => {
               </>
             )}
 
-            <label htmlFor="email">{login ? "Email/Username" : "Email"}</label>
+            <label htmlFor="email">Email</label>
             <input
-              type={login ? "text" : "email"}
-              name={login ? "username" : "email"}
-              value={formData[login ? "username" : "email"]}
+              type="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
+
+            {!login && (
+              <>
+                <label htmlFor="phone">Phone No.</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                />
+              </>
+            )}
+
+            {!login && (
+              <>
+                <label htmlFor="class">Class</label>
+
+                <select
+                  name="class"
+                  value={formData.class}
+                  onChange={handleChange}
+                >
+                  <option value="">-- Select --</option>
+                  <option value="VI">Class 6</option>
+                  <option value="VII">Class 7</option>
+                  <option value="VIII">Class 8</option>
+                  <option value="IX">Class 9</option>
+                  <option value="X">Class 10</option>
+                  <option value="XI">Class 11</option>
+                  <option value="XII">Class 12</option>
+                </select>
+              </>
+            )}
 
             <label htmlFor="password">Password</label>
             <input
@@ -106,11 +158,15 @@ const SignUpModal = ({ open, setOpen }) => {
           </p>
         </div>
       </Modal>
-      <Otpverify open={openVerify} setOpen = {(e)=>setOpenVerify(e)} token={token}/>
+      <Otpverify
+        open={openVerify}
+        setOpenVerify={setOpenVerify}
+        token={token}
+        formData={otpData}
+       
+      />
     </div>
   );
 };
-
-
 
 export default SignUpModal;
