@@ -1,58 +1,76 @@
-import { Modal } from '@mui/material';
-import React, { useState } from 'react'
-import { API_ENDPOINTS } from '../../../utils/api-endpoints';
-import axios from 'axios';
+import { Modal } from "@mui/material";
+import React, { useRef, useState } from "react";
+import { API_ENDPOINTS } from "../../../utils/api-endpoints";
+import axios from "axios";
 
 const Otpverify = (props) => {
-  const {open,setOpen,token} = props;
-  const [otp,setOtp] = useState('');
-  console.log(props,"uwhedjha");
-  const [isloading,setIsLoading] = useState(false);
+  const { open, setOpenVerify, token, formData} = props;
+  const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
+  const inputsRef = useRef([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (index, value) => {
+    if (!/^\d?$/.test(value)) return;
+
+    const newOtp = [...otpDigits];
+    newOtp[index] = value;
+    setOtpDigits(newOtp);
+
+    if (value && index < 5) {
+      inputsRef.current[index + 1].focus();
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const otp = otpDigits.join("");
+    if (otp.length !== 6) return alert("Please enter all 6 digits");
+
     setIsLoading(true);
-  
     try {
       const payload = {
-        otp:otp,
-        activationToken:token
-      }
+        otp,
+        activationToken: token,
+        ...formData,
+      };
       const response = await axios.post(API_ENDPOINTS.VERIFY_USER, payload);
 
       if (response.status === 200) {
-        console.log("Response data:", response.data);
-        // Handle success logic, e.g., close modal, show success message
-                setOpen(false);
-
-       
+        console.log("Verified successfully");
+        setOpenVerify(false);
       }
     } catch (error) {
-      console.error("Error during sign-up/login:", error);
-      // Show error feedback to the user
+      console.error("Verification error:", error);
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
-<Modal open={open} >
-    <div className='modalStyle'>
-        <h4>Otp Verify!</h4>
-        <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="username"
-              placeholder='Enter Otp'
-              value={otp}
-              onChange={(e)=>setOtp(e.target.value)}
-              required
-            />
-             <button type="submit" disabled={isloading} className="common-btn">
-              {isloading ? "Please Wait..." : "Submit"}
-            </button>
+    <Modal open={open}>
+      <div className="modalStyle">
+        <h4>OTP Verification</h4>
+        <form onSubmit={handleSubmit} className="otp-form">
+          <div className="otp-boxes">
+            {otpDigits.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleChange(index, e.target.value)}
+                ref={(el) => (inputsRef.current[index] = el)}
+                className="otp-input"
+              />
+            ))}
+          </div>
+          <button type="submit" disabled={isLoading} className="common-btn">
+            {isLoading ? "Verifying..." : "Submit"}
+          </button>
         </form>
-    </div>
-</Modal>
-)
-}
+      </div>
+    </Modal>
+  );
+};
 
 export default Otpverify;

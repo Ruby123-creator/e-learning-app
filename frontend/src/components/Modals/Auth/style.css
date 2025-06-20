@@ -4,7 +4,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
+    width: 500px;
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -17,6 +17,9 @@
         text-align: center;
         color: #02544f;
       }
+      form{
+        width:90%;
+      }
       label {
         font-size: 14px;
         color: #333;
@@ -25,13 +28,25 @@
       }
       input {
         width: 100%;
-        padding: 10px;
+        padding: 10px 0px 10px 10px;
         font-size: 14px;
         border: 1px solid #ddd;
         border-radius: 4px;
         margin-bottom: 15px;
         outline: none;
         transition: border-color 0.3s ease;
+        box-sizing: border-box;
+      }
+      select {
+        width: 100%;
+        padding: 10px 0px 10px 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        outline: none;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
       }
       input:focus {
         border-color: #02544f;
@@ -75,5 +90,35 @@
     background-color: #2da99f;
   }
   
-  
-  
+  /* OTP Input Styling */
+  .otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.modalStyle .otp-form .otp-boxes .otp-input {
+  width: 50px;
+  height: 50px;
+  padding: 0px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin-bottom: 0;
+  margin-right:8px;
+}
+
+.otp-input:focus {
+  border-color: #02544f;
+  box-shadow: 0 0 5px rgba(2, 84, 79, 0.3);
+}
