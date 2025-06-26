@@ -130,3 +130,10 @@ export const myProfile = TryCatch(async (req,res)=>{
 
   res.json({ user });
 })
+
+
+export const getAllUsers = TryCatch(async (req, res) => {
+  const users = await UserSchema.find();
+  res.status(200).json(users);
+});
+

@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.js';
 import courseRouter from './routes/courses.js';
 import adminRouter from './routes/admin.js';
+import uploadRouter from './routes/upload.js'
+import subjectRouter from './routes/subject.js'
 import { connectDB } from './database/db.js';
 import cors from 'cors';
 import Razorpay from 'razorpay';
@@ -27,6 +29,8 @@ app.get('/',(req,res)=>{
 app.use('/api',userRoutes);
 app.use('/api',courseRouter);
 app.use('/api', adminRouter);
+app.use('/api', uploadRouter);
+app.use('/api', subjectRouter);
 
 app.listen(port,()=>{
   console.log(`http://localhost:${port}`);
