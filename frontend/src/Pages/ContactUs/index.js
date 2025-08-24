@@ -1,5 +1,5 @@
-import React from "react";
-import "./style.css";
+
+import EnquiryForm from "../Home/enquiryForm";
 
 const ContactPage = () => {
   return (
@@ -10,18 +10,16 @@ const ContactPage = () => {
         <div className="contact-info">
           <div className="info-box">
             <h3>📞 Phone</h3>
-            <p>+91 98765 43210</p>
+            <p> <a href="tel:+919717073123">+91-97170 73123</a></p>
           </div>
           <div className="info-box">
             <h3>📧 Email</h3>
-            <p>support@topicwiseinstitute.com</p>
+           <a href="mailto:topicwiseinstitute@gmail.com">topicwiseinstitute@gmail.com</a>
           </div>
           <div className="info-box">
             <h3>📍 Address</h3>
             <p>
-              123 Knowledge Lane, Education City,
-              <br />
-              New Delhi, India - 110001
+             Chotpur Rd, Sector 63, Noida, UP 201307
             </p>
           </div>
         </div>
@@ -40,26 +38,7 @@ const ContactPage = () => {
            
           </div>
 
-          <form className="contact-form">
-            <h3>📬 Send Us a Message</h3>
-            <label>
-              Name
-              <input type="text" placeholder="Your Name" required />
-            </label>
-            <label>
-              Email
-              <input type="email" placeholder="Your Email" required />
-            </label>
-            <label>
-              Subject
-              <input type="text" placeholder="Subject" required />
-            </label>
-            <label>
-              Message
-              <textarea rows="4" placeholder="Your Message" required></textarea>
-            </label>
-            <button type="submit">Send Message</button>
-          </form>
+        <EnquiryForm/>
         </div>
       </div>
     </div>

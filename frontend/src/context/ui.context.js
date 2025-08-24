@@ -3,7 +3,8 @@ import { createContext, useContext, useMemo, useReducer } from "react"
 
 
 const initialState = {
-   userData:"Ruby Pal",
+   userData:{},
+   isLogin: JSON.parse(localStorage.getItem('loginData')||'{}')?.email ? true:false
 }
 
 
@@ -23,10 +24,10 @@ function uiReducer(state,action){
 export function UIProvider(props){
     const [state,dispatch] = useReducer(uiReducer,initialState);
 
-    const authorize = (data) => dispatch({ type: 'SET_USER_DATA' ,data:data});
+    const setUserData = (data) => dispatch({ type: 'SET_USER_DATA' ,data:data});
   const value = useMemo(()=>({
     ...state,
-    authorize,
+    setUserData,
   }),[state]);
   return <UIContext.Provider value={value} {...props}/>
 }

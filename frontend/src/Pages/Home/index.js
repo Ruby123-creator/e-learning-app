@@ -3,7 +3,7 @@ import img from '../../assets/images/main-img.png'
 import {color, motion} from 'framer-motion';
 
 
-import './style.css'
+
 import TestimonialSection from './testimonial';
 import EnquiryForm from './enquiryForm';
 import AboutUs from './aboutus';
@@ -51,7 +51,7 @@ const HomeCom = () => {
         color: "#02544f",
         fontWeight: "700",
         position: "relative",
-        overflow: "visible",
+        overflow: "hidden",
         margin: "0 auto",
         fontFamily: '"Quicksand", serif',
 
@@ -87,7 +87,7 @@ const HomeCom = () => {
     <div className='home'>
         <div className='section'>
         <div style={containerStyle}>
-      <motion.div style={mainTextStyle}>Topicwise Institute</motion.div>
+      <motion.div style={mainTextStyle}>Topicwise</motion.div>
       {positions.map((pos, index) => (
         <motion.div
           key={index}
@@ -116,18 +116,18 @@ const HomeCom = () => {
       ))}
     </div>
             <div className='right-div'>
-               <img src={img} alt='student-img' width={650}/>
-            </div>
+               <img src={img} alt='student-img' className='student-img'/>
+            </div> 
 
         </div>
          <div className='section enquiry'>
           <div className='about-us'>
            <AboutUs/>
           </div>
-          <div className='enquiry-form'>
-          <EnquiryForm/>
+          {/* <div className='enquiry-form'>
+         
 
-          </div>
+          </div> */}
           
         </div>
         <div>

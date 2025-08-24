@@ -2,6 +2,7 @@ import React from "react";
 import Lottie from "lottie-react";
 import animationData from "../../assets/Animation - 1744354582020.json";
 import styled from "styled-components";
+import EnquiryForm from "./enquiryForm";
 
 const Container = styled.div`
   background-color: white;
@@ -109,30 +110,7 @@ function Exam() {
        <Container>
        <Wrapper>
       <FlexSection>
-        <TextContent>
-          <h3>Your Path to Success in Competitive Exams Begins Here</h3>
-          <p>
-            We offer basic preparation for all major competitive exams, focusing
-            on strengthening your fundamentals and building confidence. With
-            clear explanations, interactive learning, and consistent support, we
-            guide you step-by-step toward success.
-          </p>
-          <ExamList>
-            {[
-              "Board",
-              "NEET",
-              "JEE",
-              "ICAR",
-              "NDA",
-              "VLDA",
-              "HAU",
-              "KVPY",
-              "B.Sc Agriculture",
-            ].map((exam, index) => (
-              <ExamBadge key={index}>{exam}</ExamBadge>
-            ))}
-          </ExamList>
-        </TextContent>
+          <EnquiryForm/>
 
         <LottieWrapper>
           <Lottie animationData={animationData} loop={true} />

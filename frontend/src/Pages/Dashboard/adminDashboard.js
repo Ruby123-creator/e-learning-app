@@ -12,7 +12,8 @@ import {
   FormControl,
 } from "@mui/material";
 import "./style.css";
-
+import UploadModal from "../../components/Modals/uploads/uploadMaterial";
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 const AdminDashboard = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [noteModalOpen, setNoteModalOpen] = useState(false);
@@ -56,17 +57,25 @@ const AdminDashboard = () => {
               ))}
             </ul>
           </div>
+           <div onClick={()=>{
+            localStorage.removeItem('loginData');
+            window.location.href = "/";
+           }}>
+              <span><LogoutOutlinedIcon color="red"/></span>
+              <span>Logout</span>
+             </div>
         </div>
-
+            
         {/* Right side: Upload Actions and Announcement */}
         <div className="upload-section">
           <div className="admin-actions">
-            <Button variant="contained" onClick={() => setVideoModalOpen(true)}>
-              Upload Video
-            </Button>
-            <Button variant="contained" onClick={() => setNoteModalOpen(true)}>
-              Upload Notes
-            </Button>
+            <button  className="submit-button" onClick={() => setVideoModalOpen(true)}>
+            Upload Video
+          </button>
+          <button  className="submit-button" onClick={() => setNoteModalOpen(true)}>
+             Upload Notes
+          </button>
+           
           </div>
 
           <div className="announcement-section">
@@ -88,7 +97,7 @@ const AdminDashboard = () => {
         open={videoModalOpen}
         handleClose={() => setVideoModalOpen(false)}
         title="Upload YouTube Video"
-        type="video"
+        type="videos"
       />
 
       {/* Upload Notes Modal */}
@@ -102,46 +111,6 @@ const AdminDashboard = () => {
   );
 };
 
-const UploadModal = ({ open, handleClose, title, type }) => {
-  const [link, setLink] = useState("");
-  const [subject, setSubject] = useState("");
-  const [grade, setGrade] = useState("");
 
-  return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent className="modal-content">
-        <TextField
-          label={type === "video" ? "YouTube Link" : "Drive Link"}
-          fullWidth
-          margin="normal"
-          value={link}
-          onChange={(e) => setLink(e.target.value)}
-        />
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Class</InputLabel>
-          <Select value={grade} onChange={(e) => setGrade(e.target.value)}>
-            {[6, 7, 8, 9, 10, 11, 12].map((cls) => (
-              <MenuItem key={cls} value={cls}>{`Class ${cls}`}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          label="Subject"
-          fullWidth
-          margin="normal"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button variant="contained" onClick={handleClose}>
-          Upload
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
 
 export default AdminDashboard;

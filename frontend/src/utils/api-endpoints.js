@@ -5,5 +5,9 @@ export const API_ENDPOINTS = {
      REGISTER:`${baseUrl}/user/register`,
      LOGIN:`${baseUrl}/user/loginuser`,
      MY_ACCOUNT:`${baseUrl}/user/myaccount`,
-     VERIFY_USER:`${baseUrl}/user/verifyuser`
+     VERIFY_USER:`${baseUrl}/user/verifyuser`,
+     UPLOAD_MATERIAL: `${baseUrl}/upload`,
+     GET_ALL_UPLOADS: `${baseUrl}/getUploads`,
+     ADD_SUBJECT: `${baseUrl}/addSubject`,
+     GET_ALL_SUBJECTS: `${baseUrl}/getAllSubjects`,
 }

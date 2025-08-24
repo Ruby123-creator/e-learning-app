@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import directorImg from "../../assets/images/director.jpg"; // Update path as needed
 
 const AboutUs = () => {
   const containerVariants = {
@@ -21,78 +22,52 @@ const AboutUs = () => {
   };
 
   return (
-    <section style={sectionStyle}>
+    <section className="about-section">
       <motion.div
-        style={contentStyle}
+        className="about-container"
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: true }}
       >
-        <motion.h2
-          style={headingStyle}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
+        {/* Left: Text Content */}
+        <div className="about-text">
+          <motion.h2 className="about-heading" variants={textVariants}>
+            Our Journey: A Note from the Founder
+          </motion.h2>
+          <motion.p
+            className="about-paragraph"
+            variants={textVariants}
+            transition={{ delay: 0.3 }}
+          >
+            In 2017, I began my journey as an educator, working with various
+            well-known institutions. During this time, I closely observed a
+            critical gap in the way Science was being taught — it was largely
+            theoretical, lacking practical connection and real-life understanding.
+            Students were expected to memorize without ever seeing an experiment
+            live, and that deeply concerned me.
+            <br /><br />
+            In 2024, that vision took shape when I established TOPICWISE INSTITUTE
+            — a place where education is not just about books, but about
+            experiencing concepts. Whether it's conducting live science
+            experiments, solving math with smart tricks, or simplifying complex
+            Social Science topics with easy-to-remember techniques, every method
+            we use is student-focused and result-driven.
+          </motion.p>
+        </div>
+
+        {/* Right: Director Image */}
+        <motion.div
+          className="about-image-wrapper"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          Our Journey: A Note from the Founder
-        </motion.h2>
-        <motion.p
-          style={paragraphStyle}
-          variants={textVariants}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.3 }}
-        >
-          In 2017, I began my journey as an educator, working with various
-          well-known institutions. During this time, I closely observed a
-          critical gap in the way Science was being taught — it was largely
-          theoretical, lacking practical connection and real-life understanding.
-          Students were expected to memorize without ever seeing an experiment
-          live, and that deeply concerned me.
-          <br />
-         
-          <br />
-          In 2024, that vision took shape when I established TOPICWISE INSTITUTE
-          — a place where education is not just about books, but about
-          experiencing concepts. Whether it's conducting live science
-          experiments, solving math with smart tricks, or simplifying complex
-          Social Science topics with easy-to-remember techniques, every method
-          we use is student-focused and result-driven.
-          <br />
-         
-        </motion.p>
+          <img src={directorImg} alt="Director" className="director-img" />
+        </motion.div>
       </motion.div>
     </section>
   );
-};
-
-// Styles
-const sectionStyle = {
-  backgroundColor: "#f5f5f5",
-  textAlign: "left",
-  fontFamily: '"Quicksand",serif',
-};
-
-const contentStyle = {
-  maxWidth: "700px",
-  margin: "0 auto",
-  padding: "20px",
-  backgroundColor: "#ffffff",
-  borderRadius: "10px",
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-};
-
-const headingStyle = {
-  textAlign: "center",
-  fontSize: "20px",
-  marginBottom: "10px",
-  color: "#02544f",
-};
-
-const paragraphStyle = {
-  fontSize: "16px",
-  color: "#333",
-  lineHeight: "1.6",
 };
 
 export default AboutUs;

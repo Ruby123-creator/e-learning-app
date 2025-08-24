@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-import logo from "../../../assets/images/logo.png"; // Adjust the path to your logo image
+import logo from "../../../assets/images/logo.png";
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -13,41 +14,26 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Contact Information */}
+        {/* Contact Section */}
         <div className="footer-section contact-section">
           <h3>Contact Us</h3>
-          <p>
-            <strong>Email:</strong> <a href="mailto:topicwiseinstitute@gmail.com">topicwiseinstitute@gmail.com</a>
-          </p>
-          <p>
-            <strong>Phone:</strong> <a href="tel:+91-9911412558">+91-97170 73123</a>
-          </p>
-          <p>
-            <strong>Address:</strong>  Chotpur Rd, Chotpur Colony, pusta marg, Sector 63, Noida, Chotpur, Uttar Pradesh 201307
-          </p>
+          <p><strong>Email:</strong> <a href="mailto:topicwiseinstitute@gmail.com">topicwiseinstitute@gmail.com</a></p>
+          <p><strong>Phone:</strong> <a href="tel:+919717073123">+91-97170 73123</a></p>
+          <p><strong>Address:</strong> Chotpur Rd, Sector 63, Noida, UP 201307</p>
         </div>
 
-        {/* Social Media */}
+        {/* Social Section */}
         <div className="footer-section social-section">
           <h3>Follow Us</h3>
           <div className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <FaFacebookF />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <FaTwitter />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <FaInstagram />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <FaLinkedinIn />
-            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedinIn /></a>
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
       <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} Topicwise Institute. All rights reserved.</p>
       </div>

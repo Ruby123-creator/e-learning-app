@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+
 import axios from "axios";
 import { Modal } from "@mui/material";
-import profile from "../../../assets/images/profile.png";
+
 import "./style.css";
 import Otpverify from "./otpverify";
 import { API_ENDPOINTS } from "../../../utils/api-endpoints";
+import { useUI } from "../../../context/ui.context";
+
+import toaster from "../../common/toaster";
 
 const SignUpModal = ({ open, setOpen }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +18,8 @@ const SignUpModal = ({ open, setOpen }) => {
     phone: "",
     class: "",
   });
+  const {userData,setUserData,isLogin} = useUI();
+  console.log(userData,"MINKAIIII")
   const [login, setLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState("");
@@ -31,7 +36,7 @@ const SignUpModal = ({ open, setOpen }) => {
   setIsLoading(true);
 
   try {
-    const endpoint = login ? API_ENDPOINTS.LOGIN : API_ENDPOINTS.REGISTER;
+    const endpoint =  login ? API_ENDPOINTS.LOGIN : API_ENDPOINTS.REGISTER;
 
     const payload = login
       ? {
@@ -41,9 +46,15 @@ const SignUpModal = ({ open, setOpen }) => {
       : formData;
 
     const response = await axios.post(endpoint, payload);
+ console.log("Response data:", response.data);
 
+ if(response.data?.status !== 200){
+       toaster(response?.data?.message)
+
+ }
+    
     if (response.status === 200) {
-      console.log("Response data:", response.data);
+     
 
       if (!login) {
         // If register, proceed with OTP verify
@@ -53,12 +64,19 @@ const SignUpModal = ({ open, setOpen }) => {
         setOpenVerify(true);
       } else {
         // If login, handle success
-        alert("Login successful!");
+         localStorage.setItem('loginData',JSON.stringify(response?.data?.user));
+         
+        // alert("Login successful!");
+       
+       toaster("Login successfully")
+        console.log(response,"CHECKKKKKK")
         setOpen(false);
       }
     }
+    
   } catch (error) {
-    console.error("Error during sign-up/login:", error);
+    console.error("Error during sign-up/login:", error?.response?.data?.message);
+    toaster(error?.response?.data?.message)
   } finally {
     setIsLoading(false);
   }
@@ -74,9 +92,7 @@ const SignUpModal = ({ open, setOpen }) => {
         aria-describedby="modal-description"
       >
         <div className="modalStyle">
-          <div className="modal-header">
-            <img src={profile} alt="profile" width={60} />
-          </div>
+         
           <h4>{login ? "Login" : "Register"}</h4>
 
           <form onSubmit={handleSubmit}>
@@ -159,7 +175,7 @@ const SignUpModal = ({ open, setOpen }) => {
         </div>
       </Modal>
       <Otpverify
-        open={openVerify}
+        openVerify={openVerify}
         setOpenVerify={setOpenVerify}
         token={token}
         formData={otpData}

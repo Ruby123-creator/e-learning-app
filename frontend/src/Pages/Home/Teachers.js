@@ -17,38 +17,38 @@ const teachers = [
   
   {
     image: profile2,
-    name: "Kafka",
-    reviews: "The teachers here truly care about each student’s success. Regular tests, feedback sessions, and doubt clearing have helped my child improve a lot in just a few month",
+    name: "Sangam Kumar",
+    reviews:"An institute where study with fun and fulfill your dreams.Helping students learn and grow every day.🔥" 
     
   },
   {
     image: profile3,
-    name: "Krutika Sharma",
+    name: "Vaishnavi",
     reviews: "Each and every student gets attention and support. The faculty is knowledgeable and responsive. Clean classrooms, proper discipline, and a passion for teaching you can't ask for more",
    
   },
   {
     image: profile4,
-    name: "Ashish Jha",
+    name: "Lovely",
     reviews: "I have interacted with the teachers at the institute—they are humble, knowledgeable, and extremely helpful. They proactively go the extra mile to ensure students receive a better education. I highly recommend it to everyone",
     
   },
    {
     image: profile5,
-    name: "Ram Chandra Mahta",
-    reviews: "The teacher has created such a supportive environment that made it easier to grow and learn Thank you for making it easier for me to achieve my goal with such wonderful classes",
+    name: "Sanjeev Kumar",
+    reviews:"The best coaching I know in my area as, here learning is fun with experiments and with experienced teachers. Where you can test yourself by monthly tests and daily questions. The same questions came to boards which sir gave us in coaching.",
 
   },
    {
     image: profile6,
-    name: "Ranjna Singh",
-    reviews: "The best coaching I know in my area as, here learning is fun with experiments and with experienced teachers. Where you can test yourself by monthly tests and daily questions. The same questions came to boards which sir gave us in coaching.",
+    name: "Dikshant",
+    reviews:  "The teacher has created such a supportive environment that made it easier to grow and learn Thank you for making it easier for me to achieve my goal with such wonderful classes",
     
   },
   {
     image: profile1,
-    name: "Sangam Kumar",
-    reviews: "An institute where study with fun and fulfill your dreams.Helping students learn and grow every day.🔥",
+    name: "Ayush Pal",
+    reviews: "The teachers here truly care about each student’s success. Regular tests, feedback sessions, and doubt clearing have helped my child improve a lot in just a few month",
    
   },
 ];
@@ -197,7 +197,7 @@ const Teaches = () => {
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 1,
-    // autoplay: true,
+    autoplay: true,
     autoplaySpeed: 4000,
     arrows: true,
     prevArrow: <CustomPrevArrow />,

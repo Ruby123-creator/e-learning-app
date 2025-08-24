@@ -4,11 +4,11 @@ import { API_ENDPOINTS } from "../../../utils/api-endpoints";
 import axios from "axios";
 
 const Otpverify = (props) => {
-  const { open, setOpenVerify, token, formData} = props;
+  const { openVerify, setOpenVerify, token, formData} = props;
   const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
   const inputsRef = useRef([]);
   const [isLoading, setIsLoading] = useState(false);
-
+   console.log(openVerify,"Rubyyyy")
   const handleChange = (index, value) => {
     if (!/^\d?$/.test(value)) return;
 
@@ -22,7 +22,8 @@ const Otpverify = (props) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+     setOpenVerify(false);
     const otp = otpDigits.join("");
     if (otp.length !== 6) return alert("Please enter all 6 digits");
 
@@ -37,7 +38,7 @@ const Otpverify = (props) => {
 
       if (response.status === 200) {
         console.log("Verified successfully");
-        setOpenVerify(false);
+       
       }
     } catch (error) {
       console.error("Verification error:", error);
@@ -47,7 +48,7 @@ const Otpverify = (props) => {
   };
 
   return (
-    <Modal open={open}>
+    <Modal open={openVerify} onClose={() => setOpenVerify(false)}>
       <div className="modalStyle">
         <h4>OTP Verification</h4>
         <form onSubmit={handleSubmit} className="otp-form">
