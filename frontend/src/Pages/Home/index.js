@@ -1,148 +1,80 @@
-import React, { useEffect, useState } from 'react'
-import img from '../../assets/images/main-img.png'
-import {color, motion} from 'framer-motion';
-
-
-
-import TestimonialSection from './testimonial';
-import EnquiryForm from './enquiryForm';
-import AboutUs from './aboutus';
-import Teaches from './Teachers';
-import Information from './subject';
-import Exam from './Exam';
+import React, { useEffect, useState } from "react";
+import img from "../../assets/images/main-img.png";
+import AboutUs from "./aboutus";
+import Teaches from "./Teachers";
+import Information from "./subject";
+import Exam from "./Exam";
 const HomeCom = () => {
-    const words = [
-        "Mentors",
-        "Skill",
-        "Teach",
-        "Guidance",
-        "Inspiration",
-        "Support",
-        "Goals",
-        "Motivation",
-        "Success",
-        "Learning",
-      ];
-    
-      
-    
-      const containerSize = 450; // Fixed size of the container
-      const radius = containerSize / 2 - 50; // Radius of the circular motion
-      const [positions, setPositions] = useState([]);
-    
-      // Generate initial circular positions
-      useEffect(() => {
-        const angleStep = (2 * Math.PI) / words.length; // Divide circle into equal angles
-        const initialPositions = words.map((_, i) => {
-          const angle = i * angleStep;
-          return {
-            x: radius * Math.cos(angle),
-            y: radius * Math.sin(angle),
-          };
-        });
-        setPositions(initialPositions);
-      }, [words, radius]);
-    
-      const containerStyle = {
-        display:'flex',
-        zIndex:'999',
-        width: `${containerSize}px`,
-        height: `${containerSize}px`,
-        color: "#02544f",
-        fontWeight: "700",
-        position: "relative",
-        overflow: "hidden",
-        margin: "0 auto",
-        fontFamily: '"Quicksand", serif',
+  const words = [
+    "Mentors",
+    "Skill",
+    "Teach",
+    "Guidance",
+    "Inspiration",
+    "Support",
+    "Goals",
+    "Motivation",
+    "Success",
+    "Learning",
+  ];
 
-        borderRadius: "50%", // Optional: Make the container visually circular
-    
-      };
-    
-      const mainTextStyle = {
-        fontSize: "20px",
-        fontWeight: "bolder",
-        position: "absolute",
-        top: "50%",
-        left: "60%",
-        color:'#000',
-        fontFamily: '"Roboto", serif',
+  const containerSize = 450; // Fixed size of the container
+  const radius = containerSize / 2 - 50; // Radius of the circular motion
+  const [positions, setPositions] = useState([]);
 
-        transform: "translate(-50%, -50%)",
+  // Generate initial circular positions
+  useEffect(() => {
+    const angleStep = (2 * Math.PI) / words.length; // Divide circle into equal angles
+    const initialPositions = words.map((_, i) => {
+      const angle = i * angleStep;
+      return {
+        x: radius * Math.cos(angle),
+        y: radius * Math.sin(angle),
       };
-    
-      const wordStyle = {
-        fontSize: "18px",
-        position: "absolute",
-        textShadow: "10px 10px 2px rgba(0, 0, 0, 0.2)", // Add shadow effect
-        
-        transition: "all 0.1s ease-in-out", // Smooth transition for hover effects
-      };
-      
-      const hoverStyle = {
-        fontSize: "24px", // Bigger font size on hover
-      };
-       
+    });
+    setPositions(initialPositions);
+  }, [words, radius]);
+
   return (
-    <div className='home'>
-        <div className='section'>
-        <div style={containerStyle}>
-      <motion.div style={mainTextStyle}>Topicwise</motion.div>
-      {positions.map((pos, index) => (
-        <motion.div
-          key={index}
-          style={{
-            ...wordStyle,
-            left: "50%",
-            top: "50%",
-            x: pos.x,
-            y: pos.y,
-          }}
-          animate={{
-            // rotate: [0, 360], // Continuous rotation
-            x: [pos.x, pos.x * 0.9, pos.x * 1.1, pos.x], // Circular/spiral movement
-            y: [pos.y, pos.y * 0.9, pos.y * 1.1, pos.y],
-            color: ["#022b29", "#035450", "#4a807c", "#39b3ac"],
-
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          {words[index]}
-        </motion.div>
-      ))}
-    </div>
-            <div className='right-div'>
-               <img src={img} alt='student-img' className='student-img'/>
-            </div> 
-
+    <div className="home">
+      <div className="hero-section">
+        {/* LEFT SIDE - Text */}
+        <div className="hero-text">
+          <h1>Welcome to Our Learning Platform</h1>
+          <p>
+            This is a space where students can learn, explore, and achieve their
+            goals. We provide the best guidance and resources to help you
+            succeed. Start your journey of growth and excellence with us today.
+          </p>
         </div>
-         <div className='section enquiry'>
-          <div className='about-us'>
-           <AboutUs/>
-          </div>
-          {/* <div className='enquiry-form'>
+
+        {/* RIGHT SIDE - Image */}
+        <div className="hero-image">
+          <img src={img} alt="student-img" className="student-img" />
+        </div>
+      </div>
+
+      <div className="section enquiry">
+        <div className="about-us">
+          <AboutUs />
+        </div>
+        {/* <div className='enquiry-form'>
          
 
           </div> */}
-          
-        </div>
-        <div>
-         
-         <Teaches/>
-        </div>
-       
-        <div>
-          <Information/>
-        </div>
-        <div>
-          <Exam/>
-        </div>
-    </div>
-  )
-}
+      </div>
+      <div>
+        <Teaches />
+      </div>
 
-export default HomeCom
+      <div>
+        <Information />
+      </div>
+      <div>
+        <Exam />
+      </div>
+    </div>
+  );
+};
+
+export default HomeCom;
