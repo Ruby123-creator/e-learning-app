@@ -5,36 +5,6 @@ import Teaches from "./Teachers";
 import Information from "./subject";
 import Exam from "./Exam";
 const HomeCom = () => {
-  const words = [
-    "Mentors",
-    "Skill",
-    "Teach",
-    "Guidance",
-    "Inspiration",
-    "Support",
-    "Goals",
-    "Motivation",
-    "Success",
-    "Learning",
-  ];
-
-  const containerSize = 450; // Fixed size of the container
-  const radius = containerSize / 2 - 50; // Radius of the circular motion
-  const [positions, setPositions] = useState([]);
-
-  // Generate initial circular positions
-  useEffect(() => {
-    const angleStep = (2 * Math.PI) / words.length; // Divide circle into equal angles
-    const initialPositions = words.map((_, i) => {
-      const angle = i * angleStep;
-      return {
-        x: radius * Math.cos(angle),
-        y: radius * Math.sin(angle),
-      };
-    });
-    setPositions(initialPositions);
-  }, [words, radius]);
-
   return (
     <div className="home">
       <div className="hero-section">
