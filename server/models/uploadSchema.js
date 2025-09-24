@@ -11,6 +11,10 @@ const uploadSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+     topic: {
+      type: String,
+      required: true,
+    },
     uploadLink:{
         type: String,
         required: true
