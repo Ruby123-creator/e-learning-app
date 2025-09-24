@@ -125,6 +125,9 @@ const SignUpModal = ({ open, setOpen }) => {
             JSON.stringify(response?.data?.user)
           );
 
+          // Update context
+          setUserData(response?.data?.user);
+
           // alert("Login successful!");
 
           toaster("Login successfully");
