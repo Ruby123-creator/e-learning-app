@@ -1,13 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 :root {
-    --theme1color: #02544f;
-    --theme2color: #fff;
-    --secondary: #FFC01A;
-    --primary-bg: #f7f7f7;
+  --theme1color: #02544f;
+  --theme2color: #fff;
+  --secondary: #ffc01a;
+  --primary-bg: #f7f7f7;
 }
-a{
-    text-decoration: none;
-
+a {
+  text-decoration: none;
 }
 .header {
   display: flex;
@@ -62,19 +61,18 @@ a{
 
 /* Drawer styling */
 
-.drawer .css-cyqh1t-MuiPaper-root-MuiDrawer-paper{
-    background-color: var(--theme1color);
-    color: var(--theme2color);
+.drawer .css-cyqh1t-MuiPaper-root-MuiDrawer-paper {
+  background-color: var(--theme1color);
+  color: var(--theme2color);
 }
 .drawerContent {
   width: 250px;
-  padding: 20px; 
+  padding: 20px;
 
-  a{
+  a {
     color: var(--theme2color);
   }
 }
-
 
 .drawerContent .MuiListItem-root {
   font-family: "Roboto", sans-serif;
@@ -157,21 +155,20 @@ a{
   color: #aaa;
 }
 
-
 /* Hero Section */
-.home{
-    background: var(--primary-bg);
-  }
-  
-  .section{
-    display: flex;
-    justify-content: space-between;
-   
-    max-width: 1200px;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 0 auto;
-  }
+.home {
+  background: var(--primary-bg);
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+
+  max-width: 1200px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 auto;
+}
 .section.hero {
   display: flex;
   flex-wrap: wrap;
@@ -277,7 +274,7 @@ a{
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
 }
 
 /* Heading */
@@ -332,7 +329,7 @@ a{
 }
 .about-page {
   padding: 2rem 1rem;
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   background-color: #f9f9f9;
   color: #333;
 }
@@ -358,8 +355,6 @@ a{
   line-height: 1.7;
   margin-bottom: 1rem;
 }
-
-
 
 .subheading {
   font-size: 1.3rem;
@@ -401,7 +396,7 @@ a{
 }
 .contact-page {
   background-color: #f9f9f9;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   padding: 40px 20px;
   color: #333;
 }
@@ -546,7 +541,7 @@ a{
 
 /* Responsive Design */
 .tabs-container {
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   padding: 20px;
   max-width: 1200px;
   margin: auto;
@@ -600,7 +595,7 @@ a{
   padding: 10px;
   border-radius: 6px;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -738,8 +733,6 @@ a{
   }
 }
 
-
-
 /* Responsive for small screens */
 @media (max-width: 768px) {
   .desktop-menu {
@@ -774,7 +767,6 @@ a{
   }
 }
 
-
 @media (max-width: 1024px) {
   .section.hero {
     flex-direction: column;
@@ -808,4 +800,94 @@ a{
   }
 }
 
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 200px 10px 200px;
+  gap: 40px;
+}
 
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #02544f;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.hero-image {
+  flex: 1;
+  text-align: center;
+}
+
+.hero-image .student-img {
+  max-width: 70%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* ✅ Tablet (<= 992px) */
+@media (max-width: 992px) {
+  .hero-section {
+    padding: 40px 80px;
+    gap: 30px;
+  }
+
+  .hero-text h1 {
+    font-size: 30px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  .hero-image .student-img {
+    max-width: 80%;
+  }
+}
+
+/* ✅ Mobile (<= 768px) */
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .hero-text {
+    margin-bottom: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 26px;
+  }
+
+  .hero-text p {
+    font-size: 15px;
+  }
+
+  .hero-image .student-img {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 360px) {
+  .director-img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .hero-section {
+    padding: 30px 20px 0px 20px;
+  }
+}
