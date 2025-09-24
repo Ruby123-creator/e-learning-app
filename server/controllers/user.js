@@ -2,7 +2,7 @@ import { UserSchema } from "../models/userSchema.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import sendMail from "../middleware/sendMail.js";
+import  {sendMail, sendForgotMail } from "../middleware/sendMail.js";
 import dotenv from 'dotenv';
 import { TryCatch } from "../middleware/tryCatch.js";
 dotenv.config();
@@ -135,5 +135,63 @@ export const myProfile = TryCatch(async (req,res)=>{
 export const getAllUsers = TryCatch(async (req, res) => {
   const users = await UserSchema.find();
   res.status(200).json(users);
+});
+
+
+export const forgotPassword = TryCatch(async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body,"Rubyyyyyy")
+  const user = await UserSchema.find({ email });
+
+  if (!user)
+    return res.status(404).json({
+      message: "No User with this email",
+    });
+
+  const token = jwt.sign({ email }, process.env.Forgot_Secret);
+
+  const data = { email, token };
+  console.log(data,"Checkkkkk");
+  await sendForgotMail("E learning", data);
+
+  user.resetPasswordExpire = Date.now() + 5 * 60 * 1000;
+
+  // await user.save();
+
+  res.json({
+    message: "Reset Password Link is send to you mail",
+  });
+});
+
+export const resetPassword = TryCatch(async (req, res) => {
+  const decodedData = jwt.verify(req.query.token, process.env.Forgot_Secret);
+
+  const user = await UserSchema.findOne({ email: decodedData.email });
+
+  if (!user)
+    return res.status(404).json({
+      message: "No user with this email",
+    });
+
+  if (user.resetPasswordExpire === null)
+    return res.status(400).json({
+      message: "Token Expired",
+    });
+
+  if (user.resetPasswordExpire < Date.now()) {
+    return res.status(400).json({
+      message: "Token Expired",
+    });
+  }
+
+  const password = await bcrypt.hash(req.body.password, 10);
+
+  user.password = password;
+
+  user.resetPasswordExpire = null;
+
+  await user.save();
+
+  res.json({ message: "Password Reset" });
 });
 
