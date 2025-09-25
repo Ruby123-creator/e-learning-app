@@ -32,6 +32,7 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false); // For modal button loading
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -39,7 +40,6 @@ const UserList = () => {
       setError(null);
       try {
         const { data } = await axios.get(API_ENDPOINTS.GET_ALL_USERS);
-        // Adjust if API response has "users" field
         setUsers(data.users || data || []);
       } catch (err) {
         console.error("Error fetching users:", err);
@@ -53,7 +53,6 @@ const UserList = () => {
     fetchUsers();
   }, []);
 
-  // Separate students and admins
   const students = useMemo(() => users.filter((u) => !u.isAdmin), [users]);
   const admins = useMemo(() => users.filter((u) => u.isAdmin), [users]);
 
@@ -78,12 +77,38 @@ const UserList = () => {
     [searchText, admins]
   );
 
-  const handleConfirm = () => {
-    if (modalData) {
-      console.log(`${modalData.action} user with id: ${modalData.id} from ${modalData.type}`);
-    }
+  // Handle Activate/Deactivate API call
+const handleConfirm = async () => {
+  if (!modalData) return;
+
+  setActionLoading(true);
+  try {
+    // Map the modal action to API status
+    const apiStatus = modalData.action === "Activate" ? "active" : "deactive";
+
+    // POST request with query params
+    await axios.post(`${API_ENDPOINTS.UPDATE_STATUS}?id=${modalData.id}&status=${apiStatus}`);
+
+    // Update local table data
+    setUsers((prev) =>
+      prev.map((user) =>
+        user._id === modalData.id
+          ? { ...user, status: apiStatus }
+          : user
+      )
+    );
+
     setModalData(null);
-  };
+  } catch (err) {
+    console.error("Failed to update status:", err);
+    alert("Failed to update status. Try again.");
+  } finally {
+    setActionLoading(false);
+  }
+};
+
+
+
 
   const renderTable = (data, isStudent = true) => (
     <Box sx={{ display: "flex", justifyContent: "center", overflowX: "auto" }}>
@@ -216,10 +241,13 @@ const UserList = () => {
                 sx={{ minWidth: 120 }}
               >
                 <MenuItem value="">All</MenuItem>
+                <MenuItem value="VII">VI</MenuItem>
                 <MenuItem value="VII">VII</MenuItem>
                 <MenuItem value="VIII">VIII</MenuItem>
                 <MenuItem value="IX">IX</MenuItem>
                 <MenuItem value="X">X</MenuItem>
+                <MenuItem value="X">X</MenuItem>
+                <MenuItem value="X">XII</MenuItem>
               </TextField>
             )}
           </Box>
@@ -236,17 +264,19 @@ const UserList = () => {
       <Dialog open={Boolean(modalData)} onClose={() => setModalData(null)}>
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>
-          Are you sure you want to <strong>{modalData?.action}</strong> this{" "}
-          {modalData?.type} (id: {modalData?.id})?
+          Are you sure you want to <strong>{modalData?.action}</strong>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setModalData(null)}>Cancel</Button>
+          <Button onClick={() => setModalData(null)} disabled={actionLoading}>
+            Cancel
+          </Button>
           <Button
             variant="contained"
             color={modalData?.action?.toLowerCase() === "deactivate" ? "error" : "success"}
             onClick={handleConfirm}
+            disabled={actionLoading}
           >
-            {modalData?.action}
+            {actionLoading ? "Updating..." : modalData?.action}
           </Button>
         </DialogActions>
       </Dialog>
