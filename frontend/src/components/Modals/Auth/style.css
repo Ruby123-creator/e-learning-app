@@ -6,6 +6,8 @@
   transform: translate(-50%, -50%);
   width: 400px; 
   max-width: 90%; 
+   max-height: 80vh; /* Limit modal height */
+  overflow-y: auto; /* Enable vertical scroll if content exceeds height */
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

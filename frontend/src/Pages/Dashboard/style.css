@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 40px 20px 0px 20px;
   background-color: #f5f6fa;
-  min-height: 100vh;
+  
 }
 
 .dashboard-title {
@@ -110,7 +110,7 @@
   padding: 20px;
   font-family: 'Arial', sans-serif;
   background-color: #f9f9f9;
-  min-height: 100vh;
+  margin-bottom: 20px;
 }
 
 /* Dashboard Title */
@@ -308,8 +308,8 @@
 /* Table Container */
 .table-container {
   width: 100%;
-  overflow-x: auto; /* enable horizontal scroll */
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch; 
   background-color: #fff;
   padding: 10px;
   border-radius: 8px;
@@ -319,8 +319,8 @@
 /* Force table to not shrink */
 .custom-table {
   border-collapse: collapse;
-  min-width: 800px; /* force horizontal overflow if container is smaller */
-  table-layout: fixed; /* keeps column widths consistent */
+  min-width: 800px; 
+  table-layout: fixed; 
 }
 
 /* Prevent text from wrapping */

@@ -1,8 +1,9 @@
 import React from "react";
 import "./style.css";
-import AdminDashboard from "./adminDashboard";
 import StudentDashboard from "./studentDashboard";
 import { useUI } from "../../context/ui.context";
+import AdminDashboard from "./adminDashboard";
+
 
 const Dashboard = () => {
   const { userData } = useUI(); // Get logged-in user data

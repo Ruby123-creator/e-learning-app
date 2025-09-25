@@ -95,6 +95,8 @@ const SignUpModal = ({ open, setOpen }) => {
         setUserData(response.data.user);
         toaster("Welcome back " + response.data.user.username);
         setOpen(false);
+        window.location.reload();
+
       } else {
         toaster(response.data?.message || "Invalid email or password");
       }
