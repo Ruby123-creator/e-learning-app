@@ -1,41 +1,73 @@
 import React from "react";
 import { useUI } from "../../context/ui.context";
-import toaster from "../../components/common/toaster";
-import { useNavigate } from "react-router-dom";
-import "./style.css"; // make sure to import styles
 
 const AdminProfile = () => {
-  const { userData, setUserData } = useUI(); // Get logged-in user data from context
+  const { userData } = useUI();
 
-
-  if (!userData) return null; 
+  if (!userData) return null;
 
   return (
-    <div className="dashboard-wrapper">
-      <h2 className="dashboard-title">Admin Profile</h2>
+    <div>
+      {/* Title */}
+      <h2
+        style={{
+          fontSize: "22px",
+          fontWeight: "600",
+          marginBottom: "15px",
+          color: "rgb(2,84,79)",
+          marginTop: "0px"
+        }}
+      >
+        Admin Profile
+      </h2>
 
-      <div className="student-card">
-        <div className="student-info">
-          <div className="info-row">
-            <span className="label">Username:</span>
-            <span className="value">{userData.username}</span>
-          </div>
-          <div className="info-row">
-            <span className="label">Email:</span>
-            <span className="value">{userData.email}</span>
-          </div>
-          <div className="info-row">
-            <span className="label">Phone:</span>
-            <span className="value">{userData.phone}</span>
-          </div>
-          <div className="info-row">
-            <span className="label">Status:</span>
-            <span className="value">{userData.status}</span>
-          </div>
-          <div className="info-row">
-            <span className="label">Created At:</span>
-            <span className="value">{new Date(userData.createdAt).toLocaleString()}</span>
-          </div>
+      {/* Responsive styles for mobile */}
+      <style>
+        {`
+          .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+          }
+
+          .info-row:last-child {
+            border-bottom: none;
+          }
+
+          @media (max-width: 600px) {
+            .info-row {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 4px;
+            }
+          }
+        `}
+      </style>
+
+      {/* Card */}
+      <div
+        style={{
+          background: "#fff",
+          borderRadius: "8px",
+          padding: "20px",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+        }}
+      >
+        <div>
+          {[
+            { label: "Username:", value: userData.username },
+            { label: "Email:", value: userData.email },
+            { label: "Phone:", value: userData.phone },
+            { label: "Status:", value: userData.status },
+            { label: "Created At:", value: new Date(userData.createdAt).toLocaleString() },
+          ].map((item, index) => (
+            <div className="info-row" key={index}>
+              <span style={{ fontWeight: "500", color: "#555" }}>{item.label}</span>
+              <span style={{ fontWeight: "600", color: "#333" }}>{item.value}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -162,7 +162,7 @@ const SignUpModal = ({ open, setOpen }) => {
 
             {!login && (
               <>
-                <label>Are you?</label>
+                <label>Register as?</label>
                 <div className="radioGroup">
                   <label>
                     <input

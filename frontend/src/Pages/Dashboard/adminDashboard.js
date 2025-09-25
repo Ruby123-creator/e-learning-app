@@ -1,85 +1,71 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import toaster from "../../components/common/toaster";
 import { useUI } from "../../context/ui.context";
 import AdminProfile from "./adminProfile";
-import UserList from "./userList";
-
-
-const Courses = () => (
-  <Box>
-    <Typography variant="h4">Courses Component</Typography>
-  </Box>
-);
+import toaster from "../../components/common/toaster";
 
 const AdminDashboard = () => {
-  const [activeComponent, setActiveComponent] = useState(null);
   const navigate = useNavigate();
-  const themeColor = "rgb(2,84,79)";
   const { setUserData } = useUI();
+  const themeColor = "rgb(2,84,79)";
 
-  const handleClick = (component) => {
-    if (component === "logout") {
-      localStorage.removeItem("loginData");
-      setUserData({});
-      toaster("Logged out successfully");
-      navigate("/"); // redirect to home page
-      return;
-    }
-    setActiveComponent(component);
+  const handleLogout = () => {
+    localStorage.removeItem("loginData");
+    setUserData({});
+    toaster("Logged out successfully");
+    navigate("/");
   };
-
-  // Render the selected component
-  if (activeComponent === "users") return <UserList />;
-  if (activeComponent === "courses") return <Courses />;
-  if (activeComponent === "profile") return <AdminProfile />;
 
   return (
     <Box
       sx={{
-        maxWidth: 500,
+        maxWidth: 800,
         mx: "auto",
         my: 5,
         display: "flex",
         flexDirection: "column",
-        px: 2,
+        px: 3,
       }}
     >
-      {["Profile", "User's List", "Courses", "Logout"].map((text) => (
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", color: themeColor }}>
+        Admin Dashboard
+      </Typography>
+
+      {/* Buttons */}
+      <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
         <Button
-          key={text}
-          fullWidth
           variant="outlined"
-          onClick={() =>
-            handleClick(
-              text === "Profile"
-                ? "profile"
-                : text === "User's List"
-                ? "users"
-                : text === "Courses"
-                ? "courses"
-                : "logout"
-            )
-          }
+          onClick={() => navigate("/dashboard/userList")}
+          sx={{ textTransform: "none", py: 1.5, px: 3 }}
+        >
+          User's List
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/dashboard/courses")}
+          sx={{ textTransform: "none", py: 1.5, px: 3 }}
+        >
+          Courses
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={handleLogout}
           sx={{
             textTransform: "none",
-            justifyContent: "space-between",
-            py: 2,
-            mb: 2,
-            color: text === "Logout" ? "#b71c1c" : "black",
-            borderColor: text === "Logout" ? "#b71c1c" : "#ccc",
-            "&:hover": {
-              backgroundColor: text === "Logout" ? "#b71c1c" : themeColor,
-              color: "#fff",
-              borderColor: text === "Logout" ? "#b71c1c" : themeColor,
-            },
+            py: 1.5,
+            px: 3,
+            color: "#b71c1c",
+            borderColor: "#b71c1c",
+            "&:hover": { backgroundColor: "#b71c1c", color: "#fff" },
           }}
         >
-          <Typography>{text}</Typography>
-          <Typography>{text !== "Logout" ? ">" : ""}</Typography>
+          Logout
         </Button>
-      ))}
+      </Box>
+
+      {/* Profile always visible */}
+      <AdminProfile />
     </Box>
   );
 };
