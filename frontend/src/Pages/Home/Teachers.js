@@ -61,28 +61,6 @@ const Wrapper = styled.div`
   padding-bottom: 40px;
 `;
 
-const Heading = styled.h2`
-  font-size: 36px;
-  font-weight: bold;
-  color: #066F2D;
-  margin-bottom: 20px;
-
- @media (max-width: 768px) {
-    font-size: 28px;
-  }
-`;
-
-const SubText = styled.p`
-  color: #444;
-  max-width: 700px;
-  margin: 0 auto 40px;
-  font-size: 18px;
-  line-height: 1.6;
-
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
-`;
 const headerStyle = {
   fontSize: "28px",
   marginBottom: "30px",
