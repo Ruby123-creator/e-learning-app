@@ -195,3 +195,27 @@ export const resetPassword = TryCatch(async (req, res) => {
   res.json({ message: "Password Reset" });
 });
 
+
+export const updateStatus = TryCatch(async (req, res) => {
+    const user = await UserSchema.findById(req.query.id);
+
+
+  if (!user)
+    return res.status(404).json({
+      message: "No user with this id",
+    });
+
+
+
+
+
+  user.status = req.query.status;
+
+
+  await user.save();
+
+  res.json({ message: `User ${req.query.status} successfully` });
+});
+
+
+
