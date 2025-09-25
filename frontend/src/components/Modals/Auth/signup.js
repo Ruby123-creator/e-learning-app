@@ -67,9 +67,18 @@ const SignUpModal = ({ open, setOpen }) => {
   try {
     const endpoint = login ? API_ENDPOINTS.LOGIN : API_ENDPOINTS.REGISTER;
 
-    const payload = login
-      ? { loginId: formData.email, password: formData.password }
-      : formData;
+    let payload;
+
+    if (login) {
+      // login flow
+      payload = { loginId: formData.email, password: formData.password };
+    } else {
+      // registration flow
+      payload = {
+        ...formData,
+        ...(formData.isAdmin && { status: "deactive" }), 
+      };
+    }
 
     const response = await axios.post(endpoint, payload);
     console.log("Response data:", response.data);
@@ -81,11 +90,11 @@ const SignUpModal = ({ open, setOpen }) => {
         setOtpData(formData);
         setOpen(false);
         setOpenVerify(true);
-        toaster("Registration successfull");
+        toaster("Registration successful");
       } else {
         toaster(response.data?.message || "Registration failed");
       }
-      return; // stop further execution
+      return;
     }
 
     // Handle login flow
@@ -96,12 +105,10 @@ const SignUpModal = ({ open, setOpen }) => {
         toaster("Welcome back " + response.data.user.username);
         setOpen(false);
         window.location.reload();
-
       } else {
         toaster(response.data?.message || "Invalid email or password");
       }
     }
-
   } catch (error) {
     console.error("Error during sign-up/login:", error?.response?.data?.message);
     toaster(error?.response?.data?.message || "Something went wrong");
@@ -109,6 +116,7 @@ const SignUpModal = ({ open, setOpen }) => {
     setIsLoading(false);
   }
 };
+
 
 
   return (
