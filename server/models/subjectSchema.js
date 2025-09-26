@@ -53,10 +53,12 @@ const subjectSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      unique: true,
     },
     thumbnailImage: {
       type: Buffer,
+    },
+     userId: {
+      type: String,
     },
     chapters: [chapterSchema],
   },

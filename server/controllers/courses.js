@@ -7,7 +7,7 @@ import crypto from 'crypto';
 import { PaymentSchema } from "../models/paymentSchema.js";
 import { Subject } from "../models/subjectSchema.js";
 export const getAllCourses = TryCatch(async (req,res)=>{
-   const allCourses = await Subject.find();
+   const allCourses = await Subject.findById(req.params.userId);
 
    res.json({
     allCourses,

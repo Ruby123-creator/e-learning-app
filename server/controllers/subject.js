@@ -3,13 +3,14 @@ import { TryCatch } from "../middleware/tryCatch.js";
 import { Chapter, Subject } from "../models/subjectSchema.js";
 
 export const addSubject = TryCatch(async (req, res) => {
-    const {subjectName,class:userClass,title, thumbnailImage } = req.body;
+    const {subjectName,class:userClass,title, thumbnailImage,userId } = req.body;
 
     const newSubject = await Subject.create({
         subjectName,
         class:userClass,
         title,
-        thumbnailImage
+        thumbnailImage,
+        userId,
     })
 
     res.status(201).json({
