@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./style.css";
 
 const Courses = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     class: "",
@@ -37,14 +39,37 @@ const Courses = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newSubject = { ...formData, id: Date.now() }; // unique id
-    const updatedSubjects = [...subjects, newSubject];
-    localStorage.setItem("subjects", JSON.stringify(updatedSubjects));
-    setSubjects(updatedSubjects);
-    setFormData({ title: "", class: "", subject: "", thumbnail: "" });
-    setOpen(false);
+    setLoading(true);
+
+    try {
+      // API request
+      const payload = {
+        subjectName: formData.subject,
+        class: formData.class,
+        title: formData.title,
+      };
+      const response = await axios.post("http://localhost:8000/api/addSubject", payload);
+
+      // Optionally, you can get the returned subject from the API
+      const newSubject = {
+        ...formData,
+        id: Date.now(), // or use response.data.id if API returns id
+      };
+
+      const updatedSubjects = [...subjects, newSubject];
+      setSubjects(updatedSubjects);
+      localStorage.setItem("subjects", JSON.stringify(updatedSubjects));
+
+      setFormData({ title: "", class: "", subject: "", thumbnail: "" });
+      setOpen(false);
+    } catch (error) {
+      console.error("Error adding subject:", error);
+      alert("Failed to add subject. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCardClick = (subj) => {
@@ -62,14 +87,8 @@ const Courses = () => {
 
       {/* Modal */}
       {open && (
-        <div
-          className="modal-overlay"
-          onClick={() => setOpen(false)} // close when clicking overlay
-        >
-          <div
-            className="modal"
-            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
-          >
+        <div className="modal-overlay" onClick={() => !loading && setOpen(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h3>Add Subject</h3>
             <form onSubmit={handleSubmit}>
               <label>Title</label>
@@ -79,6 +98,7 @@ const Courses = () => {
                 value={formData.title}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
 
               <label>Class</label>
@@ -87,6 +107,7 @@ const Courses = () => {
                 value={formData.class}
                 onChange={handleChange}
                 required
+                disabled={loading}
               >
                 <option value="">Select Class</option>
                 <option value="VI">Class VI</option>
@@ -105,6 +126,7 @@ const Courses = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
 
               <label>Thumbnail</label>
@@ -112,14 +134,15 @@ const Courses = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                disabled={loading}
               />
 
               <div className="modal-actions">
-                <button type="button" onClick={() => setOpen(false)}>
+                <button type="button" onClick={() => !loading && setOpen(false)} disabled={loading}>
                   Cancel
                 </button>
-                <button type="submit" className="add-btn">
-                  Add
+                <button type="submit" className="add-btn" disabled={loading}>
+                  {loading ? "Adding..." : "Add"}
                 </button>
               </div>
             </form>

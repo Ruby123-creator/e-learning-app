@@ -75,6 +75,7 @@ export const verifyUser = TryCatch(async (req, res) => {
     password: verifiedToken.user.password,
     phone: verifiedToken.user.phone,
     class: verifiedToken.user.class,
+    isAdmin: verifiedToken.user.isAdmin,
   });
 
   return res.status(201).json({
