@@ -3,7 +3,7 @@ import { checkout, fetchCourseLectures, fetchLectureById, getAllCourses, getCour
 import { isAuth } from "../middleware/isAuth.js";
 const courseRouter = express.Router();
 
-// courseRouter.get("/course/getAllCourse",getAllCourses);
+courseRouter.get("/course/getAllSubjects",getAllCourses);
 // courseRouter.get("/course/courseById",getCourseById);
 // courseRouter.get("/course/getAllLectures",isAuth,fetchCourseLectures);
 // courseRouter.get("/course/LectureById", isAuth,fetchLectureById);
