@@ -2,16 +2,16 @@ import React, { useEffect } from "react";
 import Layout from "./components/common";
 import HomeCom from "./Pages/Home";
 import About from "./Pages/About";
-import Dashboard from "./Pages/Dashboard"; // main dashboard page
-import UserList from "./Pages/Dashboard/userList"; // new page for users
-// import CoursesPage from "./Pages/Dashboard/coursesPage"; // new page for courses
+import Dashboard from "./Pages/Dashboard";
+import UserList from "./Pages/Dashboard/userList";
+import Courses from "./Pages/Dashboard/courses";
 import ContactPage from "./Pages/ContactUs";
 import ResetPasswordPage from "./components/Modals/Auth/resetPassword";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import { useUI } from "./context/ui.context";
 import "./assets/style/style.css";
-
+import SubjectPage from "./Pages/Dashboard/subjectPage";
 
 const App = () => {
   const { setUserData } = useUI();
@@ -38,15 +38,65 @@ const App = () => {
 
       <Routes>
         {/* Routes wrapped in Layout */}
-        <Route path="/" element={<Layout><HomeCom /></Layout>} />
-        <Route path="/about-us" element={<Layout><About /></Layout>} />
-        <Route path="/contact-us" element={<Layout><ContactPage /></Layout>} />
-
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <HomeCom />
+            </Layout>
+          }
+        />
+        <Route
+          path="/about-us"
+          element={
+            <Layout>
+              <About />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contact-us"
+          element={
+            <Layout>
+              <ContactPage />
+            </Layout>
+          }
+        />
         {/* Dashboard routes */}
-        <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />          {/* AdminDashboard */}
-        <Route path="/dashboard/userList" element={<Layout><UserList /></Layout>} />  {/* Users List */}
-        {/* <Route path="/dashboard/courses" element={<Layout><CoursesPage /></Layout>} />     Courses */}
-
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />{" "}
+        {/* AdminDashboard */}
+        <Route
+          path="/dashboard/userList"
+          element={
+            <Layout>
+              <UserList />
+            </Layout>
+          }
+        />{" "}
+        {/* Users List */}
+        <Route
+          path="/dashboard/courses"
+          element={
+            <Layout>
+              <Courses />
+            </Layout>
+          }
+        />
+        <Route
+          path="/dashboard/courses/:subjectName/:id"
+          element={
+            <Layout>
+              <SubjectPage />
+            </Layout>
+          }
+        />
         {/* Standalone route without Layout */}
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       </Routes>
