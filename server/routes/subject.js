@@ -1,5 +1,5 @@
 import express from 'express';
-import { addSubject, getAllSubjects } from '../controllers/subject.js';
+import { addChapters, addSubject, addTopics, getAllSubjects } from '../controllers/subject.js';
 
 
 const router = express.Router();
@@ -7,5 +7,9 @@ const router = express.Router();
 
 router.post("/addSubject", addSubject);
 router.get("/getAllSubjects", getAllSubjects); 
+router.post("/addChapters", addChapters);
+router.post("/addTopics", addTopics);
+
+
 
 export default router;
