@@ -1,116 +1,73 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-} from "@mui/material";
-import "./style.css";
-import UploadModal from "../../components/Modals/uploads/uploadMaterial";
-import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import React from "react";
+import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useUI } from "../../context/ui.context";
+import AdminProfile from "./adminProfile";
+import toaster from "../../components/common/toaster";
+
 const AdminDashboard = () => {
-  const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [noteModalOpen, setNoteModalOpen] = useState(false);
-  const [announcement, setAnnouncement] = useState("");
+  const navigate = useNavigate();
+  const { setUserData } = useUI();
+  const themeColor = "rgb(2,84,79)";
 
-  const uploadedVideos = [
-    "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    "https://www.youtube.com/embed/tgbNymZ7vqY"
-  ];
-
-  const uploadedNotes = [
-    { title: "Math Notes", link: "https://drive.google.com/file/d/xyz/view" },
-    { title: "Science Notes", link: "https://drive.google.com/file/d/abc/view" }
-  ];
+  const handleLogout = () => {
+    localStorage.removeItem("loginData");
+    setUserData({});
+    toaster("Logged out successfully");
+    navigate("/");
+  };
 
   return (
-    <div className="admin-dashboard">
-      <h1 className="admin-title">Admin Dashboard</h1>
-      <div className="dashboard-layout">
-        {/* Left side: Display Uploaded Content */}
-        <div className="uploaded-section">
-          <div className="uploaded-videos">
-            <h2>Uploaded Videos</h2>
-            {uploadedVideos.map((url, index) => (
-              <iframe
-                key={index}
-                src={url}
-                title={`Video ${index + 1}`}
-                allowFullScreen
-              ></iframe>
-            ))}
-          </div>
+    <Box
+      sx={{
+        maxWidth: 800,
+        mx: "auto",
+        my: 5,
+        display: "flex",
+        flexDirection: "column",
+        px: 3,
+      }}
+    >
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", color: themeColor }}>
+        Admin Dashboard
+      </Typography>
 
-          <div className="uploaded-notes">
-            <h2>Uploaded Notes</h2>
-            <ul>
-              {uploadedNotes.map((note, index) => (
-                <li key={index}>
-                  <a href={note.link} target="_blank" rel="noopener noreferrer">{note.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-           <div onClick={()=>{
-            localStorage.removeItem('loginData');
-            window.location.href = "/";
-           }}>
-              <span><LogoutOutlinedIcon color="red"/></span>
-              <span>Logout</span>
-             </div>
-        </div>
-            
-        {/* Right side: Upload Actions and Announcement */}
-        <div className="upload-section">
-          <div className="admin-actions">
-            <button  className="submit-button" onClick={() => setVideoModalOpen(true)}>
-            Upload Video
-          </button>
-          <button  className="submit-button" onClick={() => setNoteModalOpen(true)}>
-             Upload Notes
-          </button>
-           
-          </div>
+      {/* Buttons */}
+      <Box sx={{ display: "flex", gap: 2, mb: 3, flexWrap: "wrap" }}>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/dashboard/userList")}
+          sx={{ textTransform: "none", py: 1.5, px: 3 }}
+        >
+          User's List
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => navigate("/dashboard/courses")}
+          sx={{ textTransform: "none", py: 1.5, px: 3 }}
+        >
+          Courses
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={handleLogout}
+          sx={{
+            textTransform: "none",
+            py: 1.5,
+            px: 3,
+            color: "#b71c1c",
+            borderColor: "#b71c1c",
+            "&:hover": { backgroundColor: "#b71c1c", color: "#fff" },
+          }}
+        >
+          Logout
+        </Button>
+      </Box>
 
-          <div className="announcement-section">
-            <h2>Important Announcement</h2>
-            <TextField
-              fullWidth
-              multiline
-              minRows={4}
-              placeholder="Write important announcement here..."
-              value={announcement}
-              onChange={(e) => setAnnouncement(e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Upload Video Modal */}
-      <UploadModal
-        open={videoModalOpen}
-        handleClose={() => setVideoModalOpen(false)}
-        title="Upload YouTube Video"
-        type="videos"
-      />
-
-      {/* Upload Notes Modal */}
-      <UploadModal
-        open={noteModalOpen}
-        handleClose={() => setNoteModalOpen(false)}
-        title="Upload Drive Notes"
-        type="notes"
-      />
-    </div>
+      {/* Profile always visible */}
+      <AdminProfile />
+    </Box>
   );
 };
-
-
 
 export default AdminDashboard;

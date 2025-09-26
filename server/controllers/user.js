@@ -9,7 +9,7 @@ dotenv.config();
 
 
 export const register = TryCatch(async (req, res) => {
-  const { email, username, password, phone, class: userClass } = req.body;
+  const { email, username, password, phone, class: userClass,isAdmin } = req.body;
 
   const userEmailExists = await UserSchema.findOne({ email });
   const userNameExists = await UserSchema.findOne({ username });
@@ -27,6 +27,7 @@ export const register = TryCatch(async (req, res) => {
     password: hashedPassword,
     phone,
     class: userClass,
+    isAdmin
   };
 
   const otp = Math.floor(100000 + Math.random() * 900000); 
@@ -34,10 +35,10 @@ export const register = TryCatch(async (req, res) => {
   const activationToken = jwt.sign({ user, otp }, process.env.WEBTOKENKEY, { expiresIn: '5m' });
 
   const mailData = { username, otp };
-  await sendMail(email, "E-LEARNING OTP Verification", mailData);
+  await sendMail(email, "Topicwise Institute Verification", mailData);
 
   return res.status(200).json({
-    message: "OTP sent to email",
+    message: "OTP sent to email successfully",
     activationToken,
   });
 });

@@ -8,9 +8,14 @@ import subjectRouter from './routes/subject.js'
 import { connectDB } from './database/db.js';
 import cors from 'cors';
 import Razorpay from 'razorpay';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpecs from './swagger.js';
+
+
 dotenv.config();
 const app = express();  //Used to create the server and manage routes.
 const port = process.env.PORT||8000
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 console.log(process.env.razor_pay_key, process.env.razor_secret_key,"CHECK::")
  export const instanace = new Razorpay({
