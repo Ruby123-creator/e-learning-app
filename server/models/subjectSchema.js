@@ -12,15 +12,15 @@ const topicSchema = new mongoose.Schema(
       enum: ["video", "notes", "pyq", "assignment"], // restrict values
       required: true,
     },
-    link:{
+    link: {
       type: String,
       required: true,
-
     },
-  
+
     accessible: {
       type: String,
-      default: 'public',
+      enum: ["public", "private"],
+      default: "public",
     },
   },
   { timestamps: true }
@@ -49,7 +49,20 @@ const subjectSchema = new mongoose.Schema(
     class: {
       type: String,
       required: true,
-      enum: ["I","II","III","IV","V","VI", "VII", "VIII", "IX", "X", "XI", "XII"],
+      enum: [
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "VII",
+        "VIII",
+        "IX",
+        "X",
+        "XI",
+        "XII",
+      ],
     },
     title: {
       type: String,
@@ -57,7 +70,7 @@ const subjectSchema = new mongoose.Schema(
     thumbnailImage: {
       type: Buffer,
     },
-     userId: {
+    userId: {
       type: String,
     },
     chapters: [chapterSchema],
@@ -67,4 +80,3 @@ const subjectSchema = new mongoose.Schema(
 
 export const Subject = mongoose.model("Subject", subjectSchema);
 export const Chapter = mongoose.model("chapter", chapterSchema);
-

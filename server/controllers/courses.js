@@ -1,13 +1,17 @@
 import { TryCatch } from "../middleware/tryCatch.js"
 
 import { Subject } from "../models/subjectSchema.js";
-export const getAllCourses = TryCatch(async (req,res)=>{
-   const allCourses = await Subject.findById(req.params.userId);
+export const getAllCourses = TryCatch(async (req, res) => {
+  const { userId } = req.query; // if you're passing as query param
 
-   res.json({
+  const allCourses = await Subject.find({ userId });
+
+  res.json({
+    success: true,
     allCourses,
-   })
-})
+  });
+});
+
 
 
 export const getAllChapters = TryCatch(async (req, res) => {
