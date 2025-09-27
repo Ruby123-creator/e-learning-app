@@ -44,7 +44,7 @@ const subjectSchema = new mongoose.Schema(
     subjectName: {
       type: String,
       required: true,
-      unique: true,
+      
     },
     class: {
       type: String,
@@ -68,7 +68,7 @@ const subjectSchema = new mongoose.Schema(
       type: String,
     },
     thumbnailImage: {
-      type: Buffer,
+  type: String, // store URL or file path
     },
     userId: {
       type: String,
@@ -77,6 +77,8 @@ const subjectSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+// Compound unique index (class + subjectName)
+subjectSchema.index({ class: 1, subjectName: 1 }, { unique: true });
 
 export const Subject = mongoose.model("Subject", subjectSchema);
 export const Chapter = mongoose.model("chapter", chapterSchema);
