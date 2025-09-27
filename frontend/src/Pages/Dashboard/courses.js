@@ -2,78 +2,98 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
+import { useUI } from "../../context/ui.context";
 
 const Courses = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     class: "",
     subject: "",
-    thumbnail: "",
+    thumbnailFile: null, // store file object
   });
   const [subjects, setSubjects] = useState([]);
   const navigate = useNavigate();
+  const { userData } = useUI();
 
+  // Fetch subjects
   useEffect(() => {
-    const storedSubjects = JSON.parse(localStorage.getItem("subjects")) || [];
-    setSubjects(storedSubjects);
-  }, []);
+    const fetchSubjects = async () => {
+      setFetching(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/course/getAllSubjects?userId=${userData._id}`
+        );
+        const data = response.data.allCourses || [];
+        setSubjects(data);
+      } catch (error) {
+        console.error("Error fetching subjects:", error);
+        alert("Failed to fetch subjects.");
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    if (userData?._id) fetchSubjects();
+  }, [userData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: name === "subject" ? value.toUpperCase() : value,
-    });
+    }));
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, thumbnail: reader.result });
-      };
-      reader.readAsDataURL(file);
+      setFormData((prev) => ({ ...prev, thumbnailFile: file }));
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  // Submit form with FormData
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      // API request
-      const payload = {
-        subjectName: formData.subject,
-        class: formData.class,
-        title: formData.title,
-      };
-      const response = await axios.post("http://localhost:8000/api/addSubject", payload);
-
-      // Optionally, you can get the returned subject from the API
-      const newSubject = {
-        ...formData,
-        id: Date.now(), // or use response.data.id if API returns id
-      };
-
-      const updatedSubjects = [...subjects, newSubject];
-      setSubjects(updatedSubjects);
-      localStorage.setItem("subjects", JSON.stringify(updatedSubjects));
-
-      setFormData({ title: "", class: "", subject: "", thumbnail: "" });
-      setOpen(false);
-    } catch (error) {
-      console.error("Error adding subject:", error);
-      alert("Failed to add subject. Please try again.");
-    } finally {
-      setLoading(false);
+  try {
+    const payload = new FormData();
+    payload.append("userId", userData._id);
+    payload.append("subjectName", formData.subject);
+    payload.append("class", formData.class);
+    payload.append("title", formData.title);
+    if (formData.thumbnailFile) {
+      payload.append("thumbnailImage", formData.thumbnailFile);
     }
-  };
+
+    const response = await axios.post("http://localhost:8000/api/addSubject", payload, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    // Ensure thumbnail is set correctly
+    const newSubject = {
+      ...response.data.data,
+      thumbnail: response.data.data.thumbnailImage || null,
+    };
+    setSubjects((prev) => [...prev, newSubject]);
+
+    setFormData({ title: "", class: "", subject: "", thumbnailFile: null });
+    setOpen(false);
+  } catch (error) {
+    console.error("Error adding subject:", error);
+    alert("Failed to add subject. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   const handleCardClick = (subj) => {
-    navigate(`${subj.subject}/${subj.id}`);
+    navigate(`${subj.subjectName}/${subj._id}`);
   };
 
   return (
@@ -130,12 +150,7 @@ const Courses = () => {
               />
 
               <label>Thumbnail</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                disabled={loading}
-              />
+              <input type="file" accept="image/*" onChange={handleImageChange} disabled={loading} />
 
               <div className="modal-actions">
                 <button type="button" onClick={() => !loading && setOpen(false)} disabled={loading}>
@@ -152,23 +167,18 @@ const Courses = () => {
 
       {/* Display subjects */}
       <div className="subjects-grid">
-        {subjects.length > 0 ? (
+        {fetching ? (
+          <p>Loading subjects...</p>
+        ) : subjects.length > 0 ? (
           subjects.map((subj) => (
-            <div
-              className="subject-card"
-              key={subj.id}
-              onClick={() => handleCardClick(subj)}
-            >
-              {subj.thumbnail && (
-                <img
-                  src={subj.thumbnail}
-                  alt={subj.title}
-                  className="thumbnail"
-                />
-              )}
-              <h4>{subj.title}</h4>
+            <div className="subject-card" key={subj._id} onClick={() => handleCardClick(subj)}>
+              <img
+                src={subj.thumbnail || "https://via.placeholder.com/150"}
+                alt={subj.subjectName}
+                className="thumbnail"
+              />
+              <h4>{subj.subjectName}</h4>
               <p>Class: {subj.class}</p>
-              <p>Subject: {subj.subject}</p>
             </div>
           ))
         ) : (
