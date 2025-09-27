@@ -199,3 +199,31 @@
   font-size: 13px;
   word-break: break-all;
 }
+
+/* Make sub-content scrollable if too tall */
+.sub-content.scrollable {
+  max-height: 300px; /* adjust height as needed */
+  overflow-y: auto;
+  padding-right: 8px; /* optional: gives space for scrollbar */
+}
+
+/* Make sub-content scrollable if too tall */
+.sub-content.scrollable {
+  max-height: 300px; /* adjust height as needed */
+  overflow-y: auto;
+  padding-right: 8px; /* optional: gives space for scrollbar */
+}
+
+/* Flex row for videos */
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
