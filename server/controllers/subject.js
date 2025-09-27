@@ -3,22 +3,25 @@ import { TryCatch } from "../middleware/tryCatch.js";
 import { Chapter, Subject } from "../models/subjectSchema.js";
 
 export const addSubject = TryCatch(async (req, res) => {
-    const {subjectName,class:userClass,title, thumbnailImage,userId } = req.body;
+  const { subjectName, class: userClass, title, userId } = req.body;
 
-    const newSubject = await Subject.create({
-        subjectName,
-        class:userClass,
-        title,
-        thumbnailImage,
-        userId,
-    })
+  const thumbnailImage = req.file ? req.file.path : null; // store file path
 
-    res.status(201).json({
+  const newSubject = await Subject.create({
+    subjectName,
+    class: userClass,
+    title,
+    thumbnailImage,
+    userId,
+  });
+
+  res.status(201).json({
     success: true,
     message: "Subject added successfully",
     data: newSubject,
   });
-})
+});
+
 
 export const addChapters = TryCatch(async (req, res) => {
   const { id, chapterName } = req.query; // you can also use req.body if sending via POST

@@ -1,11 +1,11 @@
 import express from 'express';
 import { addChapters, addSubject, addTopics } from '../controllers/subject.js';
-
+import { uploadFiles } from '../middleware/multer.js';
 
 const router = express.Router();
 
 
-router.post("/addSubject", addSubject);
+router.post("/addSubject", uploadFiles.single("thumbnailImage"), addSubject);
 router.post("/addChapters", addChapters);
 router.post("/addTopics", addTopics);
 
