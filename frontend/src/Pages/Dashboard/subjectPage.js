@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import "./subject.css";
 
 const SECTION_KEYS = {
@@ -11,120 +12,209 @@ const SECTION_KEYS = {
 
 const SubjectPage = () => {
   const { id } = useParams();
-  const [subject, setSubject] = useState(null);
+  const [subjectName, setSubjectName] = useState("");
   const [chapters, setChapters] = useState([]);
   const [open, setOpen] = useState(false);
   const [chapterName, setChapterName] = useState("");
   const [expandedChapter, setExpandedChapter] = useState(null);
   const [expandedSub, setExpandedSub] = useState({});
-  const [subModal, setSubModal] = useState({ open: false, type: "", chId: null });
+  const [subModal, setSubModal] = useState({
+    open: false,
+    type: "",
+    chId: null,
+  });
   const [subName, setSubName] = useState("");
   const [subLink, setSubLink] = useState("");
   const [expandedItem, setExpandedItem] = useState({});
+  const [loading, setLoading] = useState(true);
 
+  // Convert YouTube URL to embed URL
+  const getYoutubeEmbedUrl = (url) => {
+    const videoId = url.split("v=")[1];
+    if (!videoId) return url;
+    const ampersandPosition = videoId.indexOf("&");
+    return `https://www.youtube.com/embed/${
+      ampersandPosition !== -1
+        ? videoId.substring(0, ampersandPosition)
+        : videoId
+    }`;
+  };
+
+  // Fetch chapters from backend
   useEffect(() => {
-    const storedSubjects = JSON.parse(localStorage.getItem("subjects")) || [];
-    const found = storedSubjects.find((s) => String(s.id) === id);
-    setSubject(found);
+    const fetchChapters = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `http://localhost:8000/api/course/getAllChapters?subjectId=${id}`
+        );
+        const data = response.data;
+        setSubjectName(data.subjectName || "");
 
-    let storedChapters = JSON.parse(localStorage.getItem(`chapters-${id}`)) || [];
+        const TYPE_TO_KEY = {
+          video: "video",
+          notes: "notes",
+          assignment: "assignment",
+          tests: "tests",
+        };
 
-    // Normalize keys to match SECTION_KEYS
-    storedChapters = storedChapters.map((ch) => {
-      const normalized = { ...ch };
-      Object.values(SECTION_KEYS).forEach((key) => {
-        if (!normalized[key]) normalized[key] = [];
-      });
-      return normalized;
-    });
+        const normalizedChapters = data.chapters.map((ch) => {
+          const normalized = {
+            ...ch,
+            video: [],
+            notes: [],
+            assignment: [],
+            tests: [],
+          };
 
-    setChapters(storedChapters);
+          if (ch.topics && ch.topics.length > 0) {
+            ch.topics.forEach((topic) => {
+              const key = TYPE_TO_KEY[topic.type] || "notes";
+              normalized[key] = [
+                ...(normalized[key] || []),
+                { id: topic._id, name: topic.title, link: topic.link },
+              ];
+            });
+          }
 
-    // Auto-expand sub-accordions with existing data
-    const initExpandedSub = {};
-    storedChapters.forEach((ch) => {
-      Object.entries(SECTION_KEYS).forEach(([displayName, key]) => {
-        if (ch[key] && ch[key].length > 0) {
-          initExpandedSub[ch.id] = displayName;
-        }
-      });
-    });
-    setExpandedSub(initExpandedSub);
+          return normalized;
+        });
 
-  }, [id]);
-
-  const handleAddChapter = () => {
-    if (!chapterName.trim()) return;
-
-    const newChapter = {
-      id: Date.now(),
-      name: chapterName.toUpperCase(),
-      video: [],
-      notes: [],
-      assignment: [],
-      tests: [],
+        setChapters(normalizedChapters);
+      } catch (error) {
+        console.error("Error fetching chapters:", error);
+        alert("Failed to load chapters.");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const updatedChapters = [...chapters, newChapter];
-    setChapters(updatedChapters);
-    localStorage.setItem(`chapters-${id}`, JSON.stringify(updatedChapters));
+    fetchChapters();
+  }, [id]);
 
-    setChapterName("");
-    setOpen(false);
-  };
-
-  const handleAddSubItem = () => {
-    if (!subName.trim() || !subLink.trim()) return;
-
-    const sectionKey = SECTION_KEYS[subModal.type];
-
-    const updatedChapters = chapters.map((ch) => {
-      if (ch.id === subModal.chId) {
-        return {
-          ...ch,
-          [sectionKey]: [
-            ...(ch[sectionKey] || []),
-            { id: Date.now(), name: subName, link: subLink },
-          ],
-        };
-      }
-      return ch;
-    });
-
-    setChapters(updatedChapters);
-    localStorage.setItem(`chapters-${id}`, JSON.stringify(updatedChapters));
-
-    setExpandedChapter(subModal.chId);
-    setExpandedSub((prev) => ({ ...prev, [subModal.chId]: subModal.type }));
-
-    setSubModal({ open: false, type: "", chId: null });
-    setSubName("");
-    setSubLink("");
-  };
-
-  const toggleChapter = (chId) => {
+  const toggleChapter = (chId) =>
     setExpandedChapter(expandedChapter === chId ? null : chId);
-  };
-
-  const toggleSub = (chId, section) => {
+  const toggleSub = (chId, section) =>
     setExpandedSub((prev) => ({
       ...prev,
       [chId]: prev[chId] === section ? null : section,
     }));
+
+  // Add chapter to backend
+  const handleAddChapter = async () => {
+  if (!chapterName.trim()) return;
+
+  try {
+    await axios.post(
+      `http://localhost:8000/api/addChapters?id=${id}&chapterName=${encodeURIComponent(
+        chapterName
+      )}`
+    );
+
+    // Refetch all chapters from backend to sync state
+    const response = await axios.get(
+      `http://localhost:8000/api/course/getAllChapters?subjectId=${id}`
+    );
+    const data = response.data;
+
+    const TYPE_TO_KEY = {
+      video: "video",
+      notes: "notes",
+      assignment: "assignment",
+      tests: "tests",
+    };
+
+    const normalizedChapters = data.chapters.map((ch) => {
+      const normalized = {
+        ...ch,
+        video: [],
+        notes: [],
+        assignment: [],
+        tests: [],
+      };
+
+      if (ch.topics && ch.topics.length > 0) {
+        ch.topics.forEach((topic) => {
+          const key = TYPE_TO_KEY[topic.type] || "notes";
+          normalized[key] = [
+            ...(normalized[key] || []),
+            { id: topic._id, name: topic.title, link: topic.link },
+          ];
+        });
+      }
+
+      return normalized;
+    });
+
+    setChapters(normalizedChapters); // latest chapter first
+    setChapterName("");
+    setOpen(false);
+  } catch (error) {
+    console.error("Error adding chapter:", error);
+    alert("Failed to add chapter. Please try again.");
+  }
+};
+
+
+  // Add sub-item (video, note, assignment, test) to backend
+  const handleAddSubItem = async () => {
+    if (!subName.trim() || !subLink.trim()) return;
+
+    try {
+      const sectionKey = SECTION_KEYS[subModal.type];
+
+      const payload = {
+        chapterId: subModal.chId,
+        subjectId: id,
+        title: subName,
+        link: subLink,
+        type: sectionKey,
+        accessible: "private",
+      };
+
+      const response = await axios.post(
+        "http://localhost:8000/api/addTopics",
+        payload
+      );
+
+      const newTopic = response.data?.data || {
+        id: Date.now(),
+        name: subName,
+        link: subLink,
+      };
+
+      const updatedChapters = chapters.map((ch) => {
+        if (ch._id === subModal.chId) {
+          return {
+            ...ch,
+            [sectionKey]: [...(ch[sectionKey] || []), newTopic],
+          };
+        }
+        return ch;
+      });
+
+      setChapters(updatedChapters);
+      setExpandedChapter(subModal.chId);
+      setExpandedSub((prev) => ({ ...prev, [subModal.chId]: subModal.type }));
+      setSubModal({ open: false, type: "", chId: null });
+      setSubName("");
+      setSubLink("");
+    } catch (error) {
+      console.error("Error adding topic:", error);
+      alert("Failed to add topic. Please try again.");
+    }
   };
 
-  const toggleItem = (chId, section, itemId) => {
-    const key = `${chId}_${section}`;
-    setExpandedItem((prev) => ({ ...prev, [key]: prev[key] === itemId ? null : itemId }));
-  };
-
-  if (!subject) return <h2>Subject not found</h2>;
+  if (loading) return <p>Loading chapters...</p>;
+  if (!subjectName) return <h2>Subject not found</h2>;
 
   return (
     <div className="subject-container">
       <div className="subject-header">
-        <h2>Chapters</h2>
-        <button className="add-btn" onClick={() => setOpen(true)}>Add Chapter</button>
+        <h2>{subjectName} - Chapters</h2>
+        <button className="add-btn" onClick={() => setOpen(true)}>
+          Add Chapter
+        </button>
       </div>
 
       {/* Add Chapter Modal */}
@@ -140,7 +230,9 @@ const SubjectPage = () => {
             />
             <div className="modal-actions">
               <button onClick={() => setOpen(false)}>Cancel</button>
-              <button className="add-btn" onClick={handleAddChapter}>Add</button>
+              <button className="add-btn" onClick={handleAddChapter}>
+                Add
+              </button>
             </div>
           </div>
         </div>
@@ -167,8 +259,16 @@ const SubjectPage = () => {
               onChange={(e) => setSubLink(e.target.value)}
             />
             <div className="modal-actions">
-              <button onClick={() => setSubModal({ open: false, type: "", chId: null })}>Cancel</button>
-              <button className="add-btn" onClick={handleAddSubItem}>Add</button>
+              <button
+                onClick={() =>
+                  setSubModal({ open: false, type: "", chId: null })
+                }
+              >
+                Cancel
+              </button>
+              <button className="add-btn" onClick={handleAddSubItem}>
+                Add
+              </button>
             </div>
           </div>
         </div>
@@ -178,53 +278,98 @@ const SubjectPage = () => {
       <div className="chapters-accordion">
         {chapters.length > 0 ? (
           chapters.map((ch) => (
-            <div key={ch.id} className={`chapter-item ${expandedChapter === ch.id ? "open" : ""}`}>
-              <div className="chapter-header" onClick={() => toggleChapter(ch.id)}>
-                <h4>{ch.name}</h4>
-                <span className={`arrow ${expandedChapter === ch.id ? "up" : "down"}`}>▼</span>
+            <div
+              key={ch._id}
+              className={`chapter-item ${
+                expandedChapter === ch._id ? "open" : ""
+              }`}
+            >
+              <div
+                className="chapter-header"
+                onClick={() => toggleChapter(ch._id)}
+              >
+                <h4>{ch.chapterName}</h4>
+                <span
+                  className={`arrow ${
+                    expandedChapter === ch._id ? "up" : "down"
+                  }`}
+                >
+                  ▼
+                </span>
               </div>
 
-              <div className="chapter-content">
-                {Object.entries(SECTION_KEYS).map(([displayName, key]) => {
-                  const isSubOpen = expandedSub[ch.id] === displayName;
-                  return (
-                    <div key={key} className={`sub-accordion ${isSubOpen ? "open" : ""}`}>
-                      <div className="sub-header" onClick={() => toggleSub(ch.id, displayName)}>
-                        <span>{displayName}</span>
-                        <button
-                          className="open-btn"
-                          onClick={() => setSubModal({ open: true, type: displayName, chId: ch.id })}
+              {expandedChapter === ch._id && (
+                <div className="chapter-content">
+                  {Object.entries(SECTION_KEYS).map(([displayName, key]) => {
+                    const isSubOpen = expandedSub[ch._id] === displayName;
+                    return (
+                      <div
+                        key={key}
+                        className={`sub-accordion ${isSubOpen ? "open" : ""}`}
+                      >
+                        <div
+                          className="sub-header"
+                          onClick={() => toggleSub(ch._id, displayName)}
                         >
-                          +
-                        </button>
-                      </div>
-                      <div className="sub-content">
-                        {ch[key] && ch[key].length > 0 ? (
-                          ch[key].map((item) => {
-                            const itemKey = `${ch.id}_${key}`;
-                            const isOpen = expandedItem[itemKey] === item.id;
-                            return (
-                              <div key={item.id} className="item-accordion">
-                                <div className="item-header" onClick={() => toggleItem(ch.id, key, item.id)}>
-                                  {item.name}
-                                  <span className={`arrow ${isOpen ? "up" : "down"}`}>▼</span>
+                          <span>{displayName}</span>
+                          <button
+                            className="open-btn"
+                            onClick={() =>
+                              setSubModal({
+                                open: true,
+                                type: displayName,
+                                chId: ch._id,
+                              })
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                        {isSubOpen && (
+                          <div className="sub-content scrollable">
+                            {ch[key] && ch[key].length > 0 ? (
+                              key === "video" ? (
+                                <div className="video-container">
+                                  {[...ch[key]].reverse().map((item) => (
+                                    <div key={item.id} className="video-item">
+                                      <p className="item-title">{item.name}</p>
+                                      <iframe
+                                        width="200"
+                                        height="120"
+                                        src={getYoutubeEmbedUrl(item.link)}
+                                        title={item.name}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                      />
+                                    </div>
+                                  ))}
                                 </div>
-                                {isOpen && (
-                                  <div className="item-content">
-                                    <a href={item.link} target="_blank" rel="noopener noreferrer">{item.link}</a>
+                              ) : (
+                                [...ch[key]].reverse().map((item) => (
+                                  <div key={item.id} className="item">
+                                    <p className="item-title">{item.name}</p>
+                                    <a
+                                      href={item.link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="item-link"
+                                    >
+                                      {item.link}
+                                    </a>
                                   </div>
-                                )}
-                              </div>
-                            );
-                          })
-                        ) : (
-                          <p>No {displayName.toLowerCase()} added yet.</p>
+                                ))
+                              )
+                            ) : (
+                              <p>No {displayName.toLowerCase()} added yet.</p>
+                            )}
+                          </div>
                         )}
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           ))
         ) : (
