@@ -26,6 +26,7 @@ console.log(process.env.razor_pay_key, process.env.razor_secret_key,"CHECK::")
 app.use(express.json());//Parses incoming JSON payloads.
 app.use(express.urlencoded({extended:true}));//Parses URL-encoded payloads. extended: true allows nested objects.
 app.use(cors()); //Middleware that enables CORS (Cross-Origin Resource Sharing). This allows the server to handle requests from different origins.
+
 app.use('/uploads',express.static('uploads'));//Serves static files from the uploads directory when requested via /uploads.
 app.get('/',(req,res)=>{
     return res.send("my server is running");

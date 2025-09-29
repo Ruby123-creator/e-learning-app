@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* ===== Scrollbar Styling (Webkit Browsers) ===== */
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px; /* For horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Or use #f0f0f0 for light bg */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Change scrollbar color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Darker on hover */
+}
+
+/* ===== Scrollbar Styling for Firefox ===== */
+* {
+  scrollbar-width: thin;       /* Makes scrollbar thin */
+  scrollbar-color: #888 transparent; /* thumb | track */
+}

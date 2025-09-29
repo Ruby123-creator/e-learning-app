@@ -1,5 +1,5 @@
 import express from 'express';
-import { loginUser, myProfile, register, verifyUser, getAllUsers, forgotPassword, resetPassword, updateStatus } from '../controllers/user.js';
+import { loginUser, myProfile, register, verifyUser, getAllUsers, forgotPassword, resetPassword, updateStatus, sendEnquiry } from '../controllers/user.js';
 import { isAuth } from '../middleware/isAuth.js';
 const router = express.Router();
 
@@ -10,6 +10,8 @@ router.get('/user/myAccount',isAuth,myProfile);
 router.get('/user/getAllUsers', getAllUsers);
 router.post('/user/forgetPassword', forgotPassword);
 router.post('/user/updateStatus', updateStatus);
+router.post('/user/enquiries', sendEnquiry);
+
 
 
 

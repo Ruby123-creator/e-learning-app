@@ -73,13 +73,12 @@ const handleSubmit = async (e) => {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
-    // Ensure thumbnail is set correctly
     const newSubject = {
       ...response.data.data,
-      thumbnail: response.data.data.thumbnailImage || null,
+      thumbnailImage: response.data.data.thumbnailImage || null, // keep naming consistent
     };
-    setSubjects((prev) => [...prev, newSubject]);
 
+    setSubjects((prev) => [...prev, newSubject]);
     setFormData({ title: "", class: "", subject: "", thumbnailFile: null });
     setOpen(false);
   } catch (error) {
@@ -89,6 +88,7 @@ const handleSubmit = async (e) => {
     setLoading(false);
   }
 };
+
 
 
 
@@ -173,7 +173,7 @@ const handleSubmit = async (e) => {
           subjects.map((subj) => (
             <div className="subject-card" key={subj._id} onClick={() => handleCardClick(subj)}>
               <img
-                src={subj.thumbnail || "https://via.placeholder.com/150"}
+                src={`http://localhost:8000/${subj.thumbnailImage}` || "https://via.placeholder.com/150"}
                 alt={subj.subjectName}
                 className="thumbnail"
               />

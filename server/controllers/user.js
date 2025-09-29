@@ -2,14 +2,14 @@ import { UserSchema } from "../models/userSchema.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import  {sendMail, sendForgotMail } from "../middleware/sendMail.js";
+import  {sendMail, sendForgotMail, sendEnquiryMail } from "../middleware/sendMail.js";
 import dotenv from 'dotenv';
 import { TryCatch } from "../middleware/tryCatch.js";
 dotenv.config();
 
 
 export const register = TryCatch(async (req, res) => {
-  const { email, username, password, phone, class: userClass,isAdmin } = req.body;
+  const { email, username, password, phone, class: userClass,isAdmin,status } = req.body;
 
   const userEmailExists = await UserSchema.findOne({ email });
   const userNameExists = await UserSchema.findOne({ username });
@@ -27,7 +27,8 @@ export const register = TryCatch(async (req, res) => {
     password: hashedPassword,
     phone,
     class: userClass,
-    isAdmin
+    isAdmin,
+    status
   };
 
   const otp = Math.floor(100000 + Math.random() * 900000); 
@@ -217,6 +218,21 @@ export const updateStatus = TryCatch(async (req, res) => {
   await user.save();
 
   res.json({ message: `User ${req.query.status} successfully` });
+});
+
+
+
+export const sendEnquiry = TryCatch(async (req, res) => {
+   const {name,email,phoneNumber,class:studentClass,message} = req.body; 
+    
+  
+
+   const mailData = {name,email,phoneNumber,class:studentClass,message};
+await sendEnquiryMail("New Student Enquiry - Topicwise Institute", mailData);
+
+  return res.status(200).json({
+    message: "Enquiry sent successfully",
+  });
 });
 
 
