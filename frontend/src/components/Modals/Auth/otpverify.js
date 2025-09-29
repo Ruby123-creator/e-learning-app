@@ -2,6 +2,7 @@ import { Modal } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { API_ENDPOINTS } from "../../../utils/api-endpoints";
 import axios from "axios";
+import toaster from "../../common/toaster";
 
 const Otpverify = (props) => {
   const { openVerify, setOpenVerify, token, formData} = props;
@@ -38,7 +39,7 @@ const Otpverify = (props) => {
 
       if (response.status === 200) {
         console.log("Verified successfully");
-       
+         toaster("User Registered Successfully")
       }
     } catch (error) {
       console.error("Verification error:", error);

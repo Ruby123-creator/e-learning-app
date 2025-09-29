@@ -27,7 +27,7 @@
   label {
     font-size: 14px;
     color: #333;
-    margin-bottom: 5px;
+    margin-top: 20px;
     display: block;
   }
   input {
@@ -36,7 +36,7 @@
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 15px;
+   
     outline: none;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
@@ -47,7 +47,7 @@
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 15px;
+ 
     outline: none;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
@@ -161,5 +161,19 @@
 
 .radioGroup input[type="radio"] {
   margin: 0;
+}
+.passwordField{
+  position: relative;
+}
+.passwordField .eye-icon{
+  position: absolute;
+  right: 0;
+  top: auto;
+}
+
+.error{
+   font-size: 10px;
+   color: rgb(235, 52, 52);
+  
 }
 

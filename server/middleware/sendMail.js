@@ -164,3 +164,106 @@ export const sendForgotMail = async (subject, data) => {
     html,
   });
 };
+
+
+
+export const sendEnquiryMail = async (subject, data) => {
+  const transport = createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // required for port 465
+    auth: {
+      user: process.env.GMAIL, // your institute Gmail (sender)
+      pass: process.env.PASSWORD,
+    },
+  });
+
+  // Build enquiry email template
+   const html = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 650px;
+        margin: auto;
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 25px 30px;
+        border: 1px solid #e0e0e0;
+      }
+      h2 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      .info {
+        margin: 12px 0;
+        padding: 12px;
+        background: #f9fafb;
+        border-left: 4px solid #5a2d82;
+        border-radius: 4px;
+      }
+      .info strong {
+        color: #333333;
+        display: inline-block;
+        width: 120px;
+      }
+      .message {
+        margin-top: 20px;
+        padding: 15px;
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 15px;
+        color: #444;
+        line-height: 1.5;
+      }
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 13px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>📩 New Enquiry from Student</h2>
+
+      <div class="info">
+        <p><strong>Name:</strong> ${data.name}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phoneNumber || "N/A"}</p>
+      </div>
+
+      <div class="message">
+        <strong>Message:</strong><br/>
+        ${data.message}
+      </div>
+
+      <div class="footer">
+        <p>This enquiry was submitted through the Institute’s Enquiry Form.</p>
+      </div>
+    </div>
+  </body>
+  </html>
+  `;
+
+  await transport.sendMail({
+    from: `"${data.name}" <${process.env.GMAIL}>`, 
+    // "from" must still be your authenticated Gmail (not student mail),
+    // but you can display student's name
+    replyTo: data.email, // ensures institute can reply directly to student
+    to: process.env.GMAIL, // your institute’s email address
+    subject: subject || "New Student Enquiry",
+    html,
+  });
+};

@@ -21,7 +21,7 @@ const HeaderComp = () => {
   };
 
   const handleProfileClick = () => {
-    isLogin ? (window.location.href = "/dashboard") : setOpen(true);
+    (isLogin?.email) ? (window.location.href = "/dashboard") : setOpen(true);
   };
 
   const menuItems = [
@@ -51,17 +51,17 @@ const HeaderComp = () => {
                 <a href={item.link}>{item.label}</a>
               </li>
             ))}
-            <li onClick={handleProfileClick}>
+                        <li >
+                            <span>
+                  <AccountCircleRoundedIcon onClick={handleProfileClick}/> 
+                </span>
               {isLogin ? (
-                <span>
-                  <AccountCircleRoundedIcon /> {userData?.username}
+               <span>
+                 {userData?.username}
                 </span>
-              ) : (
-                <span>
-                  <AccountCircleRoundedIcon />
-                </span>
-              )}
+              ) : ""}
             </li>
+           
           </ul>
         </div>
 
