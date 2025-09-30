@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
+import { API_ENDPOINTS } from "../../utils/api-endpoints";
 
 // Helper to convert normal YouTube URL to embed URL
 const getYoutubeEmbedUrl = (url) => {
@@ -24,7 +25,7 @@ function Content() {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/course/getAllChapters?subjectId=${subjectId}`
+          `${API_ENDPOINTS.GET_ALL_CHAPTERS}?subjectId=${subjectId}`
         );
 
         const chapter = response.data.chapters.find(
@@ -49,8 +50,8 @@ function Content() {
   const topicsByType = types.reduce((acc, type) => {
     acc[type] = topics
       .filter((t) => t.type === type)
-      .filter((t) =>
-        t.title.toLowerCase().includes(searchTerm.toLowerCase()) // <-- filter by search
+      .filter(
+        (t) => t.title.toLowerCase().includes(searchTerm.toLowerCase()) // <-- filter by search
       );
     return acc;
   }, {});
@@ -120,6 +121,5 @@ function Content() {
     </div>
   );
 }
-
 
 export default Content;

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
 import { useUI } from "../../context/ui.context";
+import { API_ENDPOINTS } from "../../utils/api-endpoints";
+import { address } from "../../utils/api-endpoints";
 
 const Courses = () => {
   const [open, setOpen] = useState(false);
@@ -25,7 +27,7 @@ const Courses = () => {
       setFetching(true);
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/course/getAllSubjects?userId=${userData._id}`
+          `${API_ENDPOINTS.GET_ALL_SUBJECTS}?userId=${userData._id}`
         );
         const data = response.data.allCourses || [];
         setSubjects(data);
@@ -75,14 +77,9 @@ const Courses = () => {
         // MUST match multer field
         payload.append("thumbnailImage", formData.thumbnailFile);
       }
-
-      const response = await axios.post(
-        "http://localhost:8000/api/addSubject",
-        payload,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const response = await axios.post(API_ENDPOINTS.ADD_SUBJECT, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       const newSubject = {
         ...response.data.data,
@@ -180,7 +177,7 @@ const Courses = () => {
                   src={formData.thumbnailPreview}
                   alt="Preview"
                   className="thumbnail-preview"
-                  style={{marginBottom: "10px"}}
+                  style={{ marginBottom: "10px" }}
                 />
               )}
 
@@ -215,7 +212,7 @@ const Courses = () => {
               <img
                 src={
                   subj.thumbnailImage
-                    ? `http://localhost:8000/${subj.thumbnailImage}`
+                    ? `${address}/${subj.thumbnailImage}`
                     : "https://via.placeholder.com/150"
                 }
                 alt={subj.subjectName}

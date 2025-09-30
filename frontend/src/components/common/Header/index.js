@@ -9,19 +9,26 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { useUI } from "../../../context/ui.context.js";
-
+import { useNavigate } from "react-router-dom";
 
 const HeaderComp = () => {
   const [open, setOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { isLogin, userData } = useUI();
+  const navigate = useNavigate();
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
   };
 
   const handleProfileClick = () => {
-    (isLogin?.email) ? (window.location.href = "/dashboard") : setOpen(true);
+    const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
+
+    if (loginData?.email) {
+      navigate("/dashboard"); // Navigate if logged in
+    } else {
+      setOpen(true); // Open SignUpModal if not logged in
+    }
   };
 
   const menuItems = [
@@ -34,9 +41,12 @@ const HeaderComp = () => {
   return (
     <>
       <div className="header">
-        <div className="logo" onClick={()=>{
-          window.location.href ="/"
-        }}>
+        <div
+          className="logo"
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
           <span>
             <img src={header} alt="logo" width={60} />
           </span>
@@ -51,17 +61,12 @@ const HeaderComp = () => {
                 <a href={item.link}>{item.label}</a>
               </li>
             ))}
-                        <li >
-                            <span>
-                  <AccountCircleRoundedIcon onClick={handleProfileClick}/> 
-                </span>
-              {isLogin ? (
-               <span>
-                 {userData?.username}
-                </span>
-              ) : ""}
+            <li>
+              <span>
+                <AccountCircleRoundedIcon onClick={handleProfileClick} />
+              </span>
+              {isLogin ? <span>{userData?.username}</span> : ""}
             </li>
-           
           </ul>
         </div>
 
@@ -74,7 +79,12 @@ const HeaderComp = () => {
       </div>
 
       {/* Drawer for mobile */}
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)} className="drawer">
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        className="drawer"
+      >
         <div className="drawerContent" onClick={toggleDrawer(false)}>
           <List>
             {menuItems.map((item) => (
@@ -85,7 +95,10 @@ const HeaderComp = () => {
             <ListItem button onClick={handleProfileClick}>
               <ListItemText
                 primary={
-                  isLogin ? userData?.username : "Login / Signup"
+                  JSON.parse(localStorage.getItem("loginData") || "{}")
+                    ?.username
+                    ? JSON.parse(localStorage.getItem("loginData")).username
+                    : "Login / Signup"
                 }
               />
             </ListItem>

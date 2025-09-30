@@ -3,6 +3,7 @@ import axios from "axios";
 import { useUI } from "../../context/ui.context";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
+import { address, API_ENDPOINTS } from "../../utils/api-endpoints";
 
 function AdminModule({ subjects, onCardClick }) {
   return (
@@ -17,10 +18,7 @@ function AdminModule({ subjects, onCardClick }) {
             <img
               src={
                 subj.thumbnailImage
-                  ? `http://localhost:8000/${subj.thumbnailImage.replace(
-                      /\\/g,
-                      "/"
-                    )}`
+                  ? `${address}/${subj.thumbnailImage.replace(/\\/g, "/")}`
                   : "https://via.placeholder.com/150"
               }
               alt={subj.subjectName}
@@ -50,10 +48,7 @@ function StudentModule({ subjects, onCardClick }) {
             <img
               src={
                 subj.thumbnailImage
-                  ? `http://localhost:8000/${subj.thumbnailImage.replace(
-                      /\\/g,
-                      "/"
-                    )}`
+                  ? `${address}/${subj.thumbnailImage.replace(/\\/g, "/")}`
                   : "https://via.placeholder.com/150"
               }
               alt={subj.subjectName}
@@ -87,8 +82,8 @@ function Modules() {
     const fetchSubjects = async () => {
       setLoading(true);
       const url = userData.isAdmin
-        ? `http://localhost:8000/api/course/getAllSubjects?userId=${userData._id}`
-        : `http://localhost:8000/api/course/getAllSubjects?class=${userData.class}`;
+        ? `${API_ENDPOINTS.GET_ALL_SUBJECTS}?userId=${userData._id}`
+        : `${API_ENDPOINTS.GET_ALL_SUBJECTS}?class=${userData.class}`;
 
       try {
         const response = await axios.get(url);
@@ -122,4 +117,3 @@ function Modules() {
 }
 
 export default Modules;
-
