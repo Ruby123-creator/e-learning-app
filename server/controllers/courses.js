@@ -2,9 +2,16 @@ import { TryCatch } from "../middleware/tryCatch.js"
 
 import { Subject } from "../models/subjectSchema.js";
 export const getAllCourses = TryCatch(async (req, res) => {
-  const { userId } = req.query; // if you're passing as query param
+  const { userId, subjectId, class: classId } = req.query;
 
-  const allCourses = await Subject.find({ userId });
+  // Build filter dynamically
+  const filter = {};
+  if (userId) filter.userId = userId;
+  if (subjectId) filter._id = subjectId;  // assuming subjectId refers to MongoDB _id
+ 
+  if (classId) filter.class = classId;
+
+  const allCourses = await Subject.find(filter);
 
   res.json({
     success: true,
