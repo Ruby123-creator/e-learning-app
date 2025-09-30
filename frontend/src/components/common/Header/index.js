@@ -28,7 +28,7 @@ const HeaderComp = () => {
     { label: "Home", link: "/" },
     { label: "About Us", link: "/about-us" },
     { label: "Contact Us", link: "/contact-us" },
-    { label: "Courses", link: "/courses" },
+    { label: "Modules", link: "/modules" },
   ];
 
   return (

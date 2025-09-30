@@ -12,6 +12,9 @@ import { Bounce, ToastContainer } from "react-toastify";
 import { useUI } from "./context/ui.context";
 import "./assets/style/style.css";
 import SubjectPage from "./Pages/Dashboard/subjectPage";
+import Modules from "./Pages/Modules";
+import ModuleChapter from "./Pages/Modules/ModuleChapter";
+import Content from "./Pages/Modules/Content";
 
 const App = () => {
   const { setUserData } = useUI();
@@ -62,6 +65,33 @@ const App = () => {
             </Layout>
           }
         />
+        <Route
+          path="/modules"
+          element={
+            <Layout>
+              <Modules/>
+            </Layout>
+          }
+        />
+
+         <Route
+          path="/modules/:subjectName/:subjectId" 
+          element={
+            <Layout>
+              <ModuleChapter/>
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/modules/:subjectName/:subjectId/:chapterName" 
+          element={
+            <Layout>
+              <Content/>
+            </Layout>
+          }
+        />
+        
         {/* Dashboard routes */}
         <Route
           path="/dashboard"

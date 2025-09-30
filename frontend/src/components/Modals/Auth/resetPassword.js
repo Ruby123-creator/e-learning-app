@@ -57,6 +57,7 @@ const ResetPasswordPage = () => {
           className="common-btn"
           onClick={handleReset}
           disabled={isLoading}
+          style={{marginTop: "10px"}}
         >
           {isLoading ? "Updating..." : "Update Password"}
         </button>

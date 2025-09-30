@@ -12,7 +12,8 @@ const Courses = () => {
     title: "",
     class: "",
     subject: "",
-    thumbnailFile: null, // store file object
+    thumbnailFile: null, // file object
+    thumbnailPreview: null, // preview URL
   });
   const [subjects, setSubjects] = useState([]);
   const navigate = useNavigate();
@@ -50,47 +51,60 @@ const Courses = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData((prev) => ({ ...prev, thumbnailFile: file }));
+      setFormData((prev) => ({
+        ...prev,
+        thumbnailFile: file,
+        thumbnailPreview: URL.createObjectURL(file),
+      }));
     }
   };
 
   // Submit form with FormData
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const payload = new FormData();
-    payload.append("userId", userData._id);
-    payload.append("subjectName", formData.subject);
-    payload.append("class", formData.class);
-    payload.append("title", formData.title);
-    if (formData.thumbnailFile) {
-      payload.append("thumbnailImage", formData.thumbnailFile);
+    try {
+      const payload = new FormData();
+      payload.append("userId", userData._id);
+      payload.append("subjectName", formData.subject);
+      payload.append("class", formData.class);
+      payload.append("title", formData.title);
+
+      if (formData.thumbnailFile) {
+        // MUST match multer field
+        payload.append("thumbnailImage", formData.thumbnailFile);
+      }
+
+      const response = await axios.post(
+        "http://localhost:8000/api/addSubject",
+        payload,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const newSubject = {
+        ...response.data.data,
+        thumbnailImage: response.data.data.thumbnailImage || null,
+      };
+
+      setSubjects((prev) => [...prev, newSubject]);
+      setFormData({
+        title: "",
+        class: "",
+        subject: "",
+        thumbnailFile: null,
+        thumbnailPreview: null,
+      });
+      setOpen(false);
+    } catch (error) {
+      console.error("Error adding subject:", error);
+      alert("Failed to add subject. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    const response = await axios.post("http://localhost:8000/api/addSubject", payload, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-
-    const newSubject = {
-      ...response.data.data,
-      thumbnailImage: response.data.data.thumbnailImage || null, // keep naming consistent
-    };
-
-    setSubjects((prev) => [...prev, newSubject]);
-    setFormData({ title: "", class: "", subject: "", thumbnailFile: null });
-    setOpen(false);
-  } catch (error) {
-    console.error("Error adding subject:", error);
-    alert("Failed to add subject. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-
+  };
 
   const handleCardClick = (subj) => {
     navigate(`${subj.subjectName}/${subj._id}`);
@@ -107,7 +121,10 @@ const handleSubmit = async (e) => {
 
       {/* Modal */}
       {open && (
-        <div className="modal-overlay" onClick={() => !loading && setOpen(false)}>
+        <div
+          className="modal-overlay"
+          onClick={() => !loading && setOpen(false)}
+        >
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h3>Add Subject</h3>
             <form onSubmit={handleSubmit}>
@@ -150,10 +167,29 @@ const handleSubmit = async (e) => {
               />
 
               <label>Thumbnail</label>
-              <input type="file" accept="image/*" onChange={handleImageChange} disabled={loading} />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                disabled={loading}
+              />
+
+              {/* Preview before upload */}
+              {formData.thumbnailPreview && (
+                <img
+                  src={formData.thumbnailPreview}
+                  alt="Preview"
+                  className="thumbnail-preview"
+                  style={{marginBottom: "10px"}}
+                />
+              )}
 
               <div className="modal-actions">
-                <button type="button" onClick={() => !loading && setOpen(false)} disabled={loading}>
+                <button
+                  type="button"
+                  onClick={() => !loading && setOpen(false)}
+                  disabled={loading}
+                >
                   Cancel
                 </button>
                 <button type="submit" className="add-btn" disabled={loading}>
@@ -171,9 +207,17 @@ const handleSubmit = async (e) => {
           <p>Loading subjects...</p>
         ) : subjects.length > 0 ? (
           subjects.map((subj) => (
-            <div className="subject-card" key={subj._id} onClick={() => handleCardClick(subj)}>
+            <div
+              className="subject-card"
+              key={subj._id}
+              onClick={() => handleCardClick(subj)}
+            >
               <img
-                src={`http://localhost:8000/${subj.thumbnailImage}` || "https://via.placeholder.com/150"}
+                src={
+                  subj.thumbnailImage
+                    ? `http://localhost:8000/${subj.thumbnailImage}`
+                    : "https://via.placeholder.com/150"
+                }
                 alt={subj.subjectName}
                 className="thumbnail"
               />

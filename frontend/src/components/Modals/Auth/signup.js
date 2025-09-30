@@ -54,8 +54,8 @@ const SignUpModal = ({ open, setOpen }) => {
       newErrors.email = "Enter a valid email";
 
     if (!formData.password.trim()) newErrors.password = "Password is required";
-    else if (formData.password.length < 6)
-      newErrors.password = "Password must be at least 6 characters";
+    // else if (formData.password.length < 6)
+    //   newErrors.password = "Password must be at least 6 characters";
 
     if (!login) {
       if (!formData.confirmPassword.trim())
@@ -323,14 +323,15 @@ const SignUpModal = ({ open, setOpen }) => {
             onClick={() => setOpenForgotPassword(false)}
           />
           <h4>Forgot Password</h4>
-          <label>Email</label>
+          <label style={{margin: "0"}}>Email</label>
           <input
             type="email"
             value={forgotEmail}
             onChange={(e) => setForgotEmail(e.target.value)}
+            style={{marginTop: "10px"}}
           />
           <button
-            className="common-btn"
+            className="update-btn"
             onClick={handleForgotPassword}
             disabled={isForgotLoading}
           >
