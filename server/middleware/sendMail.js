@@ -115,16 +115,16 @@ export const sendForgotMail = async (subject, data) => {
       max-width: 600px;
     }
     h1 {
-      color: #5a2d82;
+      color: #0000;
     }
     p {
-      color: #666666;
+      color: #fff;
     }
     .button {
       display: inline-block;
       padding: 15px 25px;
       margin: 20px 0;
-      background-color: #5a2d82;
+      background-color: #000;
       color: white;
       text-decoration: none;
       border-radius: 4px;
@@ -132,11 +132,11 @@ export const sendForgotMail = async (subject, data) => {
     }
     .footer {
       margin-top: 20px;
-      color: #999999;
+      color: #ffff;
       text-align: center;
     }
     .footer a {
-      color: #5a2d82;
+      color: #000;
       text-decoration: none;
     }
   </style>
