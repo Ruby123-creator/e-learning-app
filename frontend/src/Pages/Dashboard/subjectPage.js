@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./subject.css";
+import { API_ENDPOINTS, baseUrl } from "../../utils/api-endpoints";
 
 const SECTION_KEYS = {
   Videos: "video",
@@ -46,8 +47,9 @@ const SubjectPage = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:8000/api/course/getAllChapters?subjectId=${id}`
+          `${API_ENDPOINTS.GET_ALL_CHAPTERS}?subjectId=${id}`
         );
+
         const data = response.data;
         setSubjectName(data.subjectName || "");
 
@@ -102,59 +104,58 @@ const SubjectPage = () => {
 
   // Add chapter to backend
   const handleAddChapter = async () => {
-  if (!chapterName.trim()) return;
+    if (!chapterName.trim()) return;
 
-  try {
-    await axios.post(
-      `http://localhost:8000/api/addChapters?id=${id}&chapterName=${encodeURIComponent(
-        chapterName
-      )}`
-    );
+    try {
+      await axios.post(
+        `${
+          API_ENDPOINTS.ADD_CHAPTERS
+        }?id=${id}&chapterName=${encodeURIComponent(chapterName)}`
+      );
 
-    // Refetch all chapters from backend to sync state
-    const response = await axios.get(
-      `http://localhost:8000/api/course/getAllChapters?subjectId=${id}`
-    );
-    const data = response.data;
+      // Refetch all chapters from backend to sync state
+      const response = await axios.get(
+        `${API_ENDPOINTS.GET_ALL_CHAPTERS}?subjectId=${id}`
+      );
+      const data = response.data;
 
-    const TYPE_TO_KEY = {
-      video: "video",
-      notes: "notes",
-      assignment: "assignment",
-      tests: "tests",
-    };
-
-    const normalizedChapters = data.chapters.map((ch) => {
-      const normalized = {
-        ...ch,
-        video: [],
-        notes: [],
-        assignment: [],
-        tests: [],
+      const TYPE_TO_KEY = {
+        video: "video",
+        notes: "notes",
+        assignment: "assignment",
+        tests: "tests",
       };
 
-      if (ch.topics && ch.topics.length > 0) {
-        ch.topics.forEach((topic) => {
-          const key = TYPE_TO_KEY[topic.type] || "notes";
-          normalized[key] = [
-            ...(normalized[key] || []),
-            { id: topic._id, name: topic.title, link: topic.link },
-          ];
-        });
-      }
+      const normalizedChapters = data.chapters.map((ch) => {
+        const normalized = {
+          ...ch,
+          video: [],
+          notes: [],
+          assignment: [],
+          tests: [],
+        };
 
-      return normalized;
-    });
+        if (ch.topics && ch.topics.length > 0) {
+          ch.topics.forEach((topic) => {
+            const key = TYPE_TO_KEY[topic.type] || "notes";
+            normalized[key] = [
+              ...(normalized[key] || []),
+              { id: topic._id, name: topic.title, link: topic.link },
+            ];
+          });
+        }
 
-    setChapters(normalizedChapters); // latest chapter first
-    setChapterName("");
-    setOpen(false);
-  } catch (error) {
-    console.error("Error adding chapter:", error);
-    alert("Failed to add chapter. Please try again.");
-  }
-};
+        return normalized;
+      });
 
+      setChapters(normalizedChapters); // latest chapter first
+      setChapterName("");
+      setOpen(false);
+    } catch (error) {
+      console.error("Error adding chapter:", error);
+      alert("Failed to add chapter. Please try again.");
+    }
+  };
 
   // Add sub-item (video, note, assignment, test) to backend
   const handleAddSubItem = async () => {
@@ -172,10 +173,7 @@ const SubjectPage = () => {
         accessible: "private",
       };
 
-      const response = await axios.post(
-        "http://localhost:8000/api/addTopics",
-        payload
-      );
+      const response = await axios.post(API_ENDPOINTS.ADD_TOPICS, payload);
 
       const newTopic = response.data?.data || {
         id: Date.now(),
