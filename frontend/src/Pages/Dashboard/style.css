@@ -9,7 +9,7 @@
 
 .dashboard-title {
   font-size: 28px;
-  color: #02544f;
+  color: #ffffff;
   margin-bottom: 30px;
   font-weight: 600;
 }
@@ -356,6 +356,10 @@
   align-items: center;
 }
 
+.courses-header h2{
+  color: white;
+}
+
 .add-btn {
   padding: 12px 16px;
   background: #03897e;
@@ -423,7 +427,7 @@
 
 /* Card */
 .subject-card {
-  background: #fff;
+  background-color: #1f1f1f; /* Dark card background */
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -438,6 +442,7 @@
 
 .subject-card h4 {
   margin: 10px 0 5px;
+  color: white;
 }
 
 .thumbnail {

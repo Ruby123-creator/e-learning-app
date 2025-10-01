@@ -8,7 +8,7 @@ import toaster from "../../components/common/toaster";
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { setUserData } = useUI();
-  const themeColor = "rgb(2,84,79)";
+  const themeColor = "rgba(255, 255, 255, 1)";
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");
@@ -28,7 +28,10 @@ const AdminDashboard = () => {
         px: 3,
       }}
     >
-      <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold", color: themeColor }}>
+      <Typography
+        variant="h4"
+        sx={{ mb: 3, fontWeight: "bold", color: themeColor }}
+      >
         Admin Dashboard
       </Typography>
 
@@ -37,14 +40,28 @@ const AdminDashboard = () => {
         <Button
           variant="outlined"
           onClick={() => navigate("/dashboard/userList")}
-          sx={{ textTransform: "none", py: 1.5, px: 3 }}
+          sx={{
+            textTransform: "none",
+            py: 1.5,
+            px: 3,
+            color: "#ffffffff",
+            borderColor: "#ffffffff",
+            "&:hover": { borderColor: "#939393ff", color: "#939393ff" },
+          }}
         >
           User's List
         </Button>
         <Button
           variant="outlined"
           onClick={() => navigate("/dashboard/courses")}
-          sx={{ textTransform: "none", py: 1.5, px: 3 }}
+          sx={{
+            textTransform: "none",
+            py: 1.5,
+            px: 3,
+            color: "#ffffffff",
+            borderColor: "#ffffffff",
+            "&:hover": { borderColor: "#939393ff", color: "#939393ff" },
+          }}
         >
           Courses
         </Button>
@@ -55,9 +72,9 @@ const AdminDashboard = () => {
             textTransform: "none",
             py: 1.5,
             px: 3,
-            color: "#b71c1c",
-            borderColor: "#b71c1c",
-            "&:hover": { backgroundColor: "#b71c1c", color: "#fff" },
+            color: "#ffffffff",
+            borderColor: "#ffffffff",
+            "&:hover": { borderColor: "#fd0000ff", color: "#fd0404ff" },
           }}
         >
           Logout
