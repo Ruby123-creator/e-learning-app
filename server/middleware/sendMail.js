@@ -47,7 +47,7 @@ export const sendMail = async (email, subject , data)=>{
                   }
                   .otp {
                       font-size: 36px;
-                      color: #7b68ee; /* Purple text */
+                      color: #000; /* Purple text */
                       margin-bottom: 30px;
                   }
               </style>
@@ -118,26 +118,27 @@ export const sendForgotMail = async (subject, data) => {
       color: #0000;
     }
     p {
-      color: #fff;
+      color: #000;
     }
-    .button {
-      display: inline-block;
-      padding: 15px 25px;
-      margin: 20px 0;
-      background-color: #000;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-size: 16px;
-    }
+  
     .footer {
       margin-top: 20px;
       color: #ffff;
       text-align: center;
     }
     .footer a {
-      color: #000;
+      color: #0689b5ff;
       text-decoration: none;
+    }
+        .button {
+      display: inline-block;
+      padding: 15px 25px;
+      margin: 20px 0;
+      background-color: #000;
+      color: #ffff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -149,8 +150,8 @@ export const sendForgotMail = async (subject, data) => {
     <a href="${process.env.frontendurl}/reset-password/${data.token}" class="button">Reset Password</a>
     <p>If you did not request this, please ignore this email.</p>
     <div class="footer">
-      <p>Thank you,<br>Your Website Team</p>
-      <p><a href="https://yourwebsite.com">yourwebsite.com</a></p>
+      <p>Thank you,<br>Topicwise Institute Team</p>
+      <p><a href="https://topiwiseInstiute.com">https://topiwiseInstiute.com</a></p>
     </div>
   </div>
 </body>

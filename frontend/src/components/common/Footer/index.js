@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import logo from "../../../assets/images/logo.png";
 
 const Footer = () => {
@@ -26,10 +26,12 @@ const Footer = () => {
         <div className="footer-section social-section">
           <h3>Follow Us</h3>
           <div className="social-icons">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedinIn /></a>
+            <a href="https://www.facebook.com/profile.php?id=61580439363580&rdid=vSddJsTpCYEZC24W&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AwGtoVzqs%2F#" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
+            <a href="https://youtube.com/@topicwiseinstitute?si=HWTnt94dRzdl7YfY" target="_blank" rel="noopener noreferrer"><FaYoutube /></a>
+            <a href="https://www.instagram.com/topicwiseinstitute?igsh=MTU0bzZlMTBzcm1pZg==" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+            <a href="https://t.me/topicwiseinstitute" target="_blank" rel="noopener noreferrer"><FaTelegram /></a>
+            <a href="https://chat.whatsapp.com/FSqheTz2PWG7ZMwNVZRWbS?mode=ems_share_t" target="_blank" rel="noopener noreferrer"><FaWhatsapp /></a>
+
           </div>
         </div>
       </div>

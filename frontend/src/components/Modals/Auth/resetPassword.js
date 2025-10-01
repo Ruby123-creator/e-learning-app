@@ -35,7 +35,8 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="modalStyle">
+   <div style={{height:"400px"}}>
+     <div className="modalStyle">
       <h4>Reset Password</h4>
       <form>
         <label>New Password</label>
@@ -63,6 +64,7 @@ const ResetPasswordPage = () => {
         </button>
       </form>
     </div>
+   </div>
   );
 };
 

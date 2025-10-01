@@ -4,12 +4,16 @@ import { useUI } from "../../context/ui.context";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { address, API_ENDPOINTS } from "../../utils/api-endpoints";
+import EmptyBox from "../../components/common/empty";
 
 function AdminModule({ subjects, onCardClick }) {
   return (
-    <div className="modules-grid">
+    <div>
       {subjects.length > 0 ? (
-        subjects.map((subj) => (
+        
+            <div className="modules-grid">
+              {
+                subjects.map((subj) => (
           <div
             key={subj._id}
             className="module-card"
@@ -28,8 +32,10 @@ function AdminModule({ subjects, onCardClick }) {
             <p>Class: {subj.class}</p>
           </div>
         ))
+              }
+</div>
       ) : (
-        <p>No subjects found.</p>
+        <EmptyBox message={"No Subject is Available for your class"}/>
       )}
     </div>
   );
@@ -37,9 +43,11 @@ function AdminModule({ subjects, onCardClick }) {
 
 function StudentModule({ subjects, onCardClick }) {
   return (
-    <div className="modules-grid">
+    <div >
       {subjects.length > 0 ? (
-        subjects.map((subj) => (
+        <div className="modules-grid">
+          {
+             subjects.map((subj) => (
           <div
             key={subj._id}
             className="module-card"
@@ -57,8 +65,11 @@ function StudentModule({ subjects, onCardClick }) {
             <h4>{subj.subjectName}</h4>
           </div>
         ))
+          }
+        </div>
+       
       ) : (
-        <p>No subjects available for your class.</p>
+        <EmptyBox message={"No Subject is Available for your class"}/>
       )}
     </div>
   );

@@ -170,7 +170,7 @@ await user.save();
   // Send mail with reset link
   const data = { email, token };
   console.log(data, "Checkkkkk");
-  await sendForgotMail("E learning", data);
+  await sendForgotMail("Reset Password(Topicwise Institute)", data);
 
   res.json({
     message: "Reset Password Link has been sent to your email",

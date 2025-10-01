@@ -1,76 +1,96 @@
 /* Modal Container */
 .modalStyle {
-  position: fixed;
+  background-color: #cfc7c1;   /* light grey */
+  color: #0b0b0b;
+  border-radius: 10px;
+  max-width: 400px;
+  max-height: 400px;
+  width: 100%;
+  padding: 10px;
+  overflow-y: auto;            /* modal content scrolls if too tall */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
+
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px; 
-  max-width: 90%; 
-   max-height: 80vh; /* Limit modal height */
-  overflow-y: auto; /* Enable vertical scroll if content exceeds height */
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  font-family: "Roboto", sans-serif;
+  display: flex;
+  flex-direction: column;
+  z-index: 999999;
+}
+
+
+.modalStyle h3 {
+  text-align: center;
+  color: #0b0b0b;
+}
+
+
+
+.modalStyle label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-top: 10px;
+}
+
+.modalStyle input,
+.modalStyle select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.modalStyle input:focus,
+.modalStyle select:focus {
+  border-color: #02544f;
+  box-shadow: 0 0 5px rgba(2, 84, 79, 0.3);
+}
+
+.modalStyle .passwordField {
   display: flex;
   align-items: center;
-  flex-direction: column;
-
-  h4 {
-    text-align: center;
-    color: #02544f;
-  }
-  form {
-    width: 90%;
-  }
-  label {
-    font-size: 14px;
-    color: #333;
-    margin-top: 20px;
-    display: block;
-  }
-  input {
-    width: 100%;
-    padding: 10px 0px 10px 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-   
-    outline: none;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-  }
-  select {
-    width: 100%;
-    padding: 10px 0px 10px 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
- 
-    outline: none;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
-  }
-  input:focus {
-    border-color: #02544f;
-    box-shadow: 0 0 5px rgba(2, 84, 79, 0.3);
-  }
-  p {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #666;
-  }
-  p span {
-    color: #03897e;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  p span:hover {
-    text-decoration: underline;
-  }
 }
+
+.modalStyle .eye-icon {
+  margin-left: -40px; /* adjust position over input */
+}
+
+.modalStyle .error {
+  font-size: 12px;
+  color: red;
+}
+
+.modalStyle p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.modalStyle p span {
+  color: #0E1111;
+  cursor: pointer;
+}
+
+.modalStyle p span:hover {
+  text-decoration: underline;
+}
+
+.closeIcon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  color: #555;
+}
+
 
 /* Input Label */
 
@@ -78,8 +98,9 @@
 .common-btn {
   width: 100%;
   padding: 12px;
+  margin: 10px 0;
   font-size: 16px;
-  background-color: #03897e;
+  background-color: #0E1111;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -91,7 +112,7 @@
   width: 100%;
   padding: 12px;
   font-size: 16px;
-  background-color: #03897e;
+  background-color: #0E1111;
   margin-top: 10px;
   color: #fff;
   border: none;
@@ -101,7 +122,7 @@
 }
 
 .common-btn:hover {
-  background-color: #2da99f;
+  background-color: #282c2b;
 }
 
 /* OTP Input Styling */
@@ -133,7 +154,7 @@
 }
 
 .otp-input:focus {
-  border-color: #02544f;
+  border-color: #0a0b0b;
   box-shadow: 0 0 5px rgba(2, 84, 79, 0.3);
 }
 
