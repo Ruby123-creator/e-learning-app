@@ -27,7 +27,7 @@ const App = () => {
     <Router>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={50000000000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -35,7 +35,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="light"
         transition={Bounce}
       />
 
