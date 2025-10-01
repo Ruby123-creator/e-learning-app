@@ -32,7 +32,7 @@ const UserList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [actionLoading, setActionLoading] = useState(false); // For modal button loading
+  const [actionLoading, setActionLoading] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -49,7 +49,6 @@ const UserList = () => {
         setLoading(false);
       }
     };
-
     fetchUsers();
   }, []);
 
@@ -77,52 +76,50 @@ const UserList = () => {
     [searchText, admins]
   );
 
-  // Handle Activate/Deactivate API call
-const handleConfirm = async () => {
-  if (!modalData) return;
+  const handleConfirm = async () => {
+    if (!modalData) return;
 
-  setActionLoading(true);
-  try {
-    // Map the modal action to API status
-    const apiStatus = modalData.action === "Activate" ? "active" : "deactive";
-
-    // POST request with query params
-    await axios.post(`${API_ENDPOINTS.UPDATE_STATUS}?id=${modalData.id}&status=${apiStatus}`);
-
-    // Update local table data
-    setUsers((prev) =>
-      prev.map((user) =>
-        user._id === modalData.id
-          ? { ...user, status: apiStatus }
-          : user
-      )
-    );
-
-    setModalData(null);
-  } catch (err) {
-    console.error("Failed to update status:", err);
-    alert("Failed to update status. Try again.");
-  } finally {
-    setActionLoading(false);
-  }
-};
-
-
-
+    setActionLoading(true);
+    try {
+      const apiStatus = modalData.action === "Activate" ? "active" : "deactive";
+      await axios.post(
+        `${API_ENDPOINTS.UPDATE_STATUS}?id=${modalData.id}&status=${apiStatus}`
+      );
+      setUsers((prev) =>
+        prev.map((user) =>
+          user._id === modalData.id ? { ...user, status: apiStatus } : user
+        )
+      );
+      setModalData(null);
+    } catch (err) {
+      console.error("Failed to update status:", err);
+      alert("Failed to update status. Try again.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   const renderTable = (data, isStudent = true) => (
     <Box sx={{ display: "flex", justifyContent: "center", overflowX: "auto" }}>
-      <TableContainer component={Paper} sx={{ width: "max-content" }}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          width: "max-content",
+          backgroundColor: "rgb(14,17,17)",
+          marginTop: "20px",
+          marginBottom: "20px",
+        }}
+      >
         <Table sx={{ minWidth: 0 }}>
           <TableHead>
-            <TableRow>
-              <TableCell>Username</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
-              {isStudent && <TableCell>Class</TableCell>}
-              <TableCell>Status</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Action</TableCell>
+            <TableRow sx={{ backgroundColor: "#1e1e1e" }}>
+              <TableCell sx={{ color: "#fff" }}>Username</TableCell>
+              <TableCell sx={{ color: "#fff" }}>Email</TableCell>
+              <TableCell sx={{ color: "#fff" }}>Phone</TableCell>
+              {isStudent && <TableCell sx={{ color: "#fff" }}>Class</TableCell>}
+              <TableCell sx={{ color: "#fff" }}>Status</TableCell>
+              <TableCell sx={{ color: "#fff" }}>Created At</TableCell>
+              <TableCell sx={{ color: "#fff" }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -131,26 +128,40 @@ const handleConfirm = async () => {
                 <TableRow
                   key={item._id}
                   sx={{
-                    "&:nth-of-type(odd)": { backgroundColor: "#f9f9f9" },
-                    "&:hover": { backgroundColor: "#f1f5f9" },
+                    "&:nth-of-type(odd)": { backgroundColor: "#1a1a1a" },
+                    "&:nth-of-type(even)": { backgroundColor: "#111" },
+                    "&:hover": { backgroundColor: "#222" },
                   }}
                 >
-                  <TableCell>{item.username || "-"}</TableCell>
-                  <TableCell>{item.email || "-"}</TableCell>
-                  <TableCell>{item.phone || "-"}</TableCell>
-                  {isStudent && <TableCell>{item.class || "-"}</TableCell>}
+                  <TableCell sx={{ color: "#fff" }}>
+                    {item.username || "-"}
+                  </TableCell>
+                  <TableCell sx={{ color: "#fff" }}>
+                    {item.email || "-"}
+                  </TableCell>
+                  <TableCell sx={{ color: "#fff" }}>
+                    {item.phone || "-"}
+                  </TableCell>
+                  {isStudent && (
+                    <TableCell sx={{ color: "#fff" }}>
+                      {item.class || "-"}
+                    </TableCell>
+                  )}
                   <TableCell>
                     <Typography
                       sx={{
-                        color: item.status === "active" ? "green" : "red",
+                        color:
+                          item.status === "active" ? "limegreen" : "tomato",
                         fontWeight: "bold",
                       }}
                     >
                       {item.status || "-"}
                     </Typography>
                   </TableCell>
-                  <TableCell>
-                    {item.createdAt ? new Date(item.createdAt).toLocaleString() : "-"}
+                  <TableCell sx={{ color: "#fff" }}>
+                    {item.createdAt
+                      ? new Date(item.createdAt).toLocaleString()
+                      : "-"}
                   </TableCell>
                   <TableCell>
                     <Button
@@ -161,7 +172,10 @@ const handleConfirm = async () => {
                         setModalData({
                           id: item._id,
                           type: isStudent ? "student" : "admin",
-                          action: item.status === "active" ? "Deactivate" : "Activate",
+                          action:
+                            item.status === "active"
+                              ? "Deactivate"
+                              : "Activate",
                         })
                       }
                     >
@@ -172,7 +186,11 @@ const handleConfirm = async () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={isStudent ? 7 : 6} align="center">
+                <TableCell
+                  colSpan={isStudent ? 7 : 6}
+                  align="center"
+                  sx={{ color: "#fff" }}
+                >
                   No users found.
                 </TableCell>
               </TableRow>
@@ -184,8 +202,8 @@ const handleConfirm = async () => {
   );
 
   return (
-    <Box sx={{ p: 3, textAlign: "center" }}>
-      <Typography variant="h4" mb={3}>
+    <Box sx={{ p: 3, textAlign: "center", backgroundColor: "rgb(14,17,17)" }}>
+      <Typography variant="h4" mb={3} sx={{ color: "#fff" }}>
         User's List
       </Typography>
 
@@ -206,9 +224,11 @@ const handleConfirm = async () => {
                 setClassFilter("");
               }}
               centered
+              TabIndicatorProps={{ style: { backgroundColor: "#38b6b6" } }}
+              textColor="inherit"
             >
-              <Tab label="Students" />
-              <Tab label="Admins" />
+              <Tab label="Students" sx={{ color: "#fff" }} />
+              <Tab label="Admins" sx={{ color: "#fff" }} />
             </Tabs>
           </Box>
 
@@ -228,7 +248,15 @@ const handleConfirm = async () => {
               size="small"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              sx={{ minWidth: 250, maxWidth: 400, flex: 1 }}
+              sx={{
+                minWidth: 250,
+                maxWidth: 400,
+                flex: 1,
+                input: { color: "#fff" },
+                label: { color: "#bbb" },
+                fieldset: { borderColor: "#555" },
+                "&:hover fieldset": { borderColor: "#888" },
+              }}
             />
             {activeTab === 0 && (
               <TextField
@@ -238,16 +266,26 @@ const handleConfirm = async () => {
                 size="small"
                 value={classFilter}
                 onChange={(e) => setClassFilter(e.target.value)}
-                sx={{ minWidth: 120 }}
+                sx={{
+                  minWidth: 120,
+                  "& .MuiInputBase-input": { color: "#fff" }, // selected value in the input box
+                  "& .MuiOutlinedInput-notchedOutline": { borderColor: "#555" }, // border color
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#888",
+                  },
+                  "& .MuiInputLabel-root": { color: "#bbb" }, // label color
+                  "& .MuiSelect-icon": { color: "#fff" }, // dropdown arrow
+                  "& .MuiMenuItem-root": { color: "#fff" }, // items in dropdown
+                }}
               >
                 <MenuItem value="">All</MenuItem>
-                <MenuItem value="VII">VI</MenuItem>
+                <MenuItem value="VI">VI</MenuItem>
                 <MenuItem value="VII">VII</MenuItem>
                 <MenuItem value="VIII">VIII</MenuItem>
                 <MenuItem value="IX">IX</MenuItem>
                 <MenuItem value="X">X</MenuItem>
-                <MenuItem value="X">X</MenuItem>
-                <MenuItem value="X">XII</MenuItem>
+                <MenuItem value="XI">XI</MenuItem>
+                <MenuItem value="XII">XII</MenuItem>
               </TextField>
             )}
           </Box>
@@ -261,18 +299,31 @@ const handleConfirm = async () => {
       )}
 
       {/* Confirmation Modal */}
-      <Dialog open={Boolean(modalData)} onClose={() => setModalData(null)}>
-        <DialogTitle>Confirmation</DialogTitle>
-        <DialogContent>
+      <Dialog
+        open={Boolean(modalData)}
+        onClose={() => setModalData(null)}
+        PaperProps={{ sx: { backgroundColor: "#1a1a1a", color: "#fff" } }}
+      >
+        <DialogTitle sx={{ color: "#fff" }}>Confirmation</DialogTitle>
+        <DialogContent sx={{ color: "#fff" }}>
           Are you sure you want to <strong>{modalData?.action}</strong>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setModalData(null)} disabled={actionLoading}>
+          <Button
+            onClick={() => setModalData(null)}
+            disabled={actionLoading}
+            sx={{ color: "#fff", borderColor: "#555" }}
+            variant="outlined"
+          >
             Cancel
           </Button>
           <Button
             variant="contained"
-            color={modalData?.action?.toLowerCase() === "deactivate" ? "error" : "success"}
+            color={
+              modalData?.action?.toLowerCase() === "deactivate"
+                ? "error"
+                : "success"
+            }
             onClick={handleConfirm}
             disabled={actionLoading}
           >

@@ -9,6 +9,10 @@
   flex-wrap: wrap;
 }
 
+.subject-header h2{
+  color: white;
+}
+
 .add-btn {
   padding: 10px 16px;
   background: #03897e;
@@ -69,6 +73,10 @@
   flex-direction: column;
   align-items: center; /* center accordion */
   gap: 12px;
+}
+
+.chapters-accordion p{
+  color: rgb(92, 92, 92);
 }
 
 .chapter-item {

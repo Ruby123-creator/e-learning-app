@@ -106,7 +106,7 @@ function Modules() {
 
   return (
     <div>
-      <h2 style={{ textAlign: "center" }}>Modules</h2>
+      <h2 style={{ textAlign: "center", color: "white"}}>Modules</h2>
       {userData?.isAdmin ? (
         <AdminModule subjects={subjects} onCardClick={handleCardClick} />
       ) : (
