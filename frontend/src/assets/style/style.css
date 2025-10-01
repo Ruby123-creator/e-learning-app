@@ -1,12 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 :root {
-  --theme1color: #02544f;
+  --theme1color: #0E1111;
   --theme2color: #fff;
   --secondary: #ffc01a;
   --primary-bg: #f7f7f7;
 }
 a {
   text-decoration: none;
+}
+.menu-header{
+position: sticky;
+top: 0;
+  z-index: 999999; /* keeps it above other elements */
+box-shadow: 10px 10px 14px -13px rgba(151,148,148,0.75);
+-webkit-box-shadow: 10px 10px 14px -13px rgba(151,148,148,0.75);
+-moz-box-shadow: 10px 10px 14px -13px rgba(151,148,148,0.75);
 }
 .header {
   display: flex;
@@ -16,7 +24,11 @@ a {
   font-family: "Roboto", serif;
   background-color: var(--theme1color);
   color: var(--theme2color);
+
+  position: sticky;
+  top: 0;
 }
+
 
 .logo {
   font-size: 20px;
@@ -78,6 +90,7 @@ a {
   font-family: "Roboto", sans-serif;
 }
 .footer {
+  border-top: 0.5px solid #cfc7c1;
   background-color: var(--theme1color);
   color: var(--theme2color);
   padding: 30px 20px 10px;
@@ -157,7 +170,7 @@ a {
 
 /* Hero Section */
 .home {
-  background: var(--primary-bg);
+  background: var(--theme1color);
 }
 
 .section {
@@ -207,7 +220,7 @@ a {
 }
 
 .about-section {
-  background-color: #f5f5f5;
+  background-color: var(--theme1color);
   padding: 2rem 1rem;
   font-family: "Quicksand", serif;
 }
@@ -220,7 +233,7 @@ a {
   gap: 2rem;
   max-width: 1100px;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: #cfc7c1;
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -270,7 +283,7 @@ a {
 /* Main Form Container */
 .form-container {
   width: 100%;
-  background-color: var(--theme1color);
+  background-color: #cfc7c1;
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -280,7 +293,7 @@ a {
 /* Heading */
 .form-container h4 {
   text-align: center;
-  color: #f9f9f9;
+  color: #0E1111;
   font-size: 20px;
   margin-bottom: 15px;
 }
@@ -315,7 +328,7 @@ a {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  background-color: #03897e;
+  background-color: var(--theme1color);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -330,14 +343,14 @@ a {
 .about-page {
   padding: 2rem 1rem;
   font-family: "Quicksand", sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: var(--theme1color);
+  color: #f7f7f7;
 }
 
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  background: white;
+  background: var(--theme1color);
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
@@ -369,7 +382,7 @@ a {
 .stream h3 {
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
-  color: #333;
+  color: #acabab;
 }
 
 .stream ul,
@@ -388,14 +401,14 @@ a {
 .conclusion {
   margin-top: 2rem;
   padding-top: 1rem;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #cacaca;
   font-size: 1rem;
   line-height: 1.6;
   text-align: center;
-  color: #444;
+  color: #a7a6a6;
 }
 .contact-page {
-  background-color: #f9f9f9;
+  background-color: var(--theme1color);
   font-family: "Segoe UI", sans-serif;
   padding: 40px 20px;
   color: #333;
@@ -404,7 +417,6 @@ a {
 .container {
   max-width: 1200px;
   margin: auto;
-  background: #fff;
   padding: 30px 40px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -414,7 +426,7 @@ a {
   text-align: center;
   font-size: 2.2rem;
   margin-bottom: 30px;
-  color: #222;
+  color: #f4f3f3;
 }
 
 /* Contact Info */
@@ -425,7 +437,9 @@ a {
   margin-bottom: 40px;
   justify-content: space-between;
 }
-
+.contact-info a,p{
+  color: #f7f7f7;
+}
 .info-box {
   flex: 1;
   min-width: 250px;
@@ -433,7 +447,7 @@ a {
 
 .info-box h3 {
   font-size: 1.2rem;
-  color: #00695c;
+  color: #f7f7f7;
   margin-bottom: 8px;
 }
 
@@ -804,7 +818,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 50px 200px 10px 200px;
+  padding: 50px 100px 10px 100px;
+  background-color: var(--theme1color);
   gap: 40px;
 }
 
@@ -822,7 +837,7 @@ a {
 .hero-text p {
   font-size: 18px;
   line-height: 1.6;
-  color: #555;
+  color: #cfc7c1;
 }
 
 .hero-image {
