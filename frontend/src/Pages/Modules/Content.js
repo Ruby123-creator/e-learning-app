@@ -3,14 +3,25 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
 import { API_ENDPOINTS } from "../../utils/api-endpoints";
+import EmptyBox from "../../components/common/empty";
 
 // Helper to convert normal YouTube URL to embed URL
 const getYoutubeEmbedUrl = (url) => {
   if (!url) return "";
-  const regExp =
+
+  // Case 1: watch?v=VIDEO_ID or youtu.be/VIDEO_ID
+  let regExp =
     /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  const match = url.match(regExp);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : url; // fallback to original link
+  let match = url.match(regExp);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+
+  // Case 2: shorts/VIDEO_ID
+  regExp = /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/;
+  match = url.match(regExp);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+
+  // fallback (in case user pastes random link)
+  return url;
 };
 
 function Content() {
@@ -44,7 +55,7 @@ function Content() {
   }, [subjectId, chapterName]);
 
   if (loading) return <p>Loading topics...</p>;
-  if (topics.length === 0) return <p>No topics found for {chapterName}</p>;
+  if (topics.length === 0) return <EmptyBox message={`No topics found for ${chapterName}`} />
 
   const types = ["video", "notes", "assignment", "test"];
   const topicsByType = types.reduce((acc, type) => {
@@ -93,7 +104,9 @@ function Content() {
       {/* Tab Content */}
       <div className="tab-content">
         {topicsByType[activeTab]?.length === 0 ? (
-          <p>No {activeTab} available.</p>
+            <EmptyBox message={`No ${activeTab} available.`} />
+
+        
         ) : (
           [...topicsByType[activeTab]].reverse().map((topic) => (
             <div key={topic._id} className="topic-card">

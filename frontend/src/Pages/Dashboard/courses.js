@@ -5,6 +5,7 @@ import "./style.css";
 import { useUI } from "../../context/ui.context";
 import { API_ENDPOINTS } from "../../utils/api-endpoints";
 import { address } from "../../utils/api-endpoints";
+import EmptyBox from "../../components/common/empty";
 
 const Courses = () => {
   const [open, setOpen] = useState(false);
@@ -223,7 +224,7 @@ const Courses = () => {
             </div>
           ))
         ) : (
-          <p>No subjects added yet</p>
+          <EmptyBox message="No subjects added yet" />
         )}
       </div>
     </div>
