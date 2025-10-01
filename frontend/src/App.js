@@ -128,7 +128,8 @@ const App = () => {
           }
         />
         {/* Standalone route without Layout */}
-        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+       
+        <Route path="/reset-password/:token" element={<Layout><ResetPasswordPage /></Layout>} />
       </Routes>
     </Router>
   );

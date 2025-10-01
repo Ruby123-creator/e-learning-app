@@ -158,10 +158,11 @@ const SignUpModal = ({ open, setOpen }) => {
   return (
     <div>
       {/* ---------------- Register / Login Modal ---------------- */}
-      <Modal open={open} onClose={() => setOpen(false)}>
+      <Modal open={open}     // ✅ allows background scroll
+ onClose={() => setOpen(false)}>
         <div className="modalStyle">
           <CloseIcon className="closeIcon" onClick={() => setOpen(false)} />
-          <h4>{login ? "Login" : "Register"}</h4>
+          <h3>{login ? "Login" : "Register"}</h3>
 
           <form onSubmit={handleSubmit}>
             {!login && (
@@ -291,7 +292,7 @@ const SignUpModal = ({ open, setOpen }) => {
                     setOpen(false);
                     setOpenForgotPassword(true);
                   }}
-                  style={{ color: "#03897e", cursor: "pointer" }}
+                  style={{ color: "#0E1111", cursor: "pointer" }}
                 >
                   Forgot Password?
                 </span>
