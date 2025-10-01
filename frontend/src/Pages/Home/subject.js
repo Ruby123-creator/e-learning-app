@@ -12,7 +12,7 @@ import eng from "../../assets/images/eng.png";
 import commerce from "../../assets/images/data-analysis.png";
 
 const Container = styled.div`
-  background-color: #f9f9f9;
+  background-color: #0E1111;
   padding: 3rem 1rem;
   display: flex;
   justify-content: center;
@@ -30,13 +30,13 @@ const Wrapper = styled.div`
 `;
 
 const SubjectSection = styled.div`
-  background-color: #f9f9f9;
+  background-color: #0E1111;
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 36px;
+  font-size: 22px;
   font-weight: 700;
-  color: #222;
+  color: #e6e4e4ff;
   text-align: center;
   margin-bottom: 3rem;
 
@@ -55,7 +55,7 @@ const Grid = styled.div`
 `;
 
 const Item = styled.div`
-  background: white;
+  background: #cfc7c1;
   border-radius: 16px;
   padding: 1.5rem 1rem;
   transition: all 0.3s ease;

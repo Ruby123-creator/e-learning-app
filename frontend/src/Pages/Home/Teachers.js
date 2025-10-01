@@ -13,7 +13,7 @@ import profile4 from "../../assets/images/profile4.png";
 import profile5 from "../../assets/images/profile5.png";
 import profile6 from "../../assets/images/profile6.png";
 
-const teachers = [
+const students = [
   
   {
     image: profile2,
@@ -54,7 +54,7 @@ const teachers = [
 ];
 
 const Wrapper = styled.div`
-  background: white;
+  background: #0E1111;
   padding: 0px;
   text-align: center;
   margin-inline: 25px;
@@ -62,9 +62,9 @@ const Wrapper = styled.div`
 `;
 
 const headerStyle = {
-  fontSize: "28px",
+  fontSize: "22px",
   marginBottom: "30px",
-  color: "#02544f",
+  color: "#eae7e7ff",
 };
 const SliderWrapper = styled.div`
   max-width: 1100px;
@@ -95,7 +95,7 @@ const Card = styled.div`
   display: flex !important;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background-color: #0E1111;
   transition: all 0.3s ease;
 
  @media (max-width: 1200px) {
@@ -116,18 +116,18 @@ const ProfileImage = styled.img`
   height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #333;
+  border: 4px solid #4c4c4cff;
   margin-bottom: 5px;
 `;
 
 const Name = styled.div`
   font-size: 1rem;
-  color: #066F2D;
+  color: #cfc7c1;
   
 `;
 
 const Subject = styled.p`
-  color: #666;
+  color: #a3a0a0ff;
   font-style: italic;
  
 `;
@@ -145,7 +145,7 @@ const Arrow = styled.div`
   transform: translateY(-50%);
   z-index: 10;
   font-size: 1.5rem;
-  color: #066F2D;
+  color: #cfc7c1;
   cursor: pointer;
 `;
 
@@ -200,14 +200,14 @@ const Teaches = () => {
   return (
     <Wrapper>
       
-  <h2 style={headerStyle}>What Our Student Says</h2>
+  <h2 style={headerStyle} >What Our Student Says</h2>
       <SliderWrapper>
         <Slider {...settings}>
-          {teachers.map((teacher, index) => (
+          {students.map((item, index) => (
             <Card key={index}>
-              <ProfileImage src={teacher.image} alt={teacher.name} />
-              <Name>{teacher.name}</Name>
-              <Subject>{teacher.reviews}</Subject>
+              <ProfileImage src={item.image} alt={item.name} />
+              <Name>{item.name}</Name>
+              <Subject>{item.reviews}</Subject>
              
             </Card>
           ))}

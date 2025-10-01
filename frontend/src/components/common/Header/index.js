@@ -39,7 +39,7 @@ const HeaderComp = () => {
   ];
 
   return (
-    <>
+    <div className="menu-header">
       <div className="header">
         <div
           className="logo"
@@ -62,10 +62,12 @@ const HeaderComp = () => {
               </li>
             ))}
             <li>
-              <span>
+              
+              {isLogin ?<span onClick={handleProfileClick}><span>
+                <AccountCircleRoundedIcon  />
+              </span> <span>{userData?.username}</span></span> : <span>
                 <AccountCircleRoundedIcon onClick={handleProfileClick} />
-              </span>
-              {isLogin ? <span>{userData?.username}</span> : ""}
+              </span>}
             </li>
           </ul>
         </div>
@@ -107,7 +109,7 @@ const HeaderComp = () => {
       </Drawer>
 
       <SignUpModal open={open} setOpen={setOpen} />
-    </>
+    </div>
   );
 };
 

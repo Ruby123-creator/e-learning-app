@@ -1,11 +1,12 @@
 import React from "react";
 import Lottie from "lottie-react";
 import animationData from "../../assets/Animation - 1744354582020.json";
+import learning from "../../assets/learning.json"
 import styled from "styled-components";
 import EnquiryForm from "./enquiryForm";
 
 const Container = styled.div`
-  background-color: white;
+  background-color: #0E1111;
   padding: 3rem 1rem;
   display: flex;
   justify-content: center;
@@ -36,64 +37,11 @@ const FlexSection = styled.div`
   }
 `;
 
-const TextContent = styled.div`
-  flex: 1;
-  text-align: left;
-  max-width: 600px;
 
-  h3 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #044e1f;
-    margin-bottom: 1rem;
-
-    @media (max-width: 480px) {
-      font-size: 1.5rem;
-    }
-  }
-
-  p {
-    font-size: 18px;
-    color: #444;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-
-    @media (max-width: 480px) {
-      font-size: 16px;
-    }
-  }
-`;
-
-const ExamList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-`;
-
-const ExamBadge = styled.div`
-  background-color: #e0f2e9;
-  color: #066f2d;
-  font-weight: 600;
-  padding: 0.75rem 1.25rem;
-  font-size: 16px;
-  border-radius: 30px;
-  border: 2px solid #c6e8d5;
-  transition: 0.3s ease;
-
-  &:hover {
-    background-color: #c6e8d5;
-    color: #044e1f;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 14px;
-    padding: 0.5rem 1rem;
-  }
-`;
 
 const LottieWrapper = styled.div`
   flex: 1;
-  max-width: 500px;
+  max-width: 450px;
   width: 100%;
 
   @media (max-width: 768px) {
@@ -113,7 +61,7 @@ function Exam() {
           <EnquiryForm/>
 
         <LottieWrapper>
-          <Lottie animationData={animationData} loop={true} />
+          <Lottie animationData={learning} loop={true} />
         </LottieWrapper>
       </FlexSection>
       </Wrapper>
