@@ -9,10 +9,10 @@ router.post('/user/loginuser',loginUser);
 router.get('/user/myAccount',isAuth,myProfile);
 router.get('/user/getAllUsers', getAllUsers);
 router.post('/user/forgetPassword', forgotPassword);
+router.post('/user/resetPassword', resetPassword);
+
 router.post('/user/updateStatus', updateStatus);
 router.post('/user/enquiries', sendEnquiry);
-
-
 
 
 export default router;

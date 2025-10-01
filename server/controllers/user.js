@@ -143,60 +143,85 @@ export const getAllUsers = TryCatch(async (req, res) => {
 
 export const forgotPassword = TryCatch(async (req, res) => {
   const { email } = req.body;
-  console.log(req.body,"Rubyyyyyy")
-  const user = await UserSchema.find({ email });
+  console.log(req.body, "Rubyyyyyy");
 
-  if (!user)
+  const user = await UserSchema.findOne({ email }); // use findOne
+
+  if (!user) {
     return res.status(404).json({
       message: "No User with this email",
     });
+  }
 
-  const token = jwt.sign({ email }, process.env.Forgot_Secret);
+  // Generate a JWT that expires in 5 minutes
+  const token = jwt.sign(
+    { email },
+    process.env.Forgot_Secret,
+    { expiresIn: "5m" }
+  );
 
+  // Save token expiry in DB
+  user.resetPasswordToken = token;
+user.resetPasswordExpire = Date.now() + 5 * 60 * 1000;
+await user.save();
+
+
+
+  // Send mail with reset link
   const data = { email, token };
-  console.log(data,"Checkkkkk");
+  console.log(data, "Checkkkkk");
   await sendForgotMail("E learning", data);
 
-  user.resetPasswordExpire = Date.now() + 5 * 60 * 1000;
-
-  // await user.save();
-
   res.json({
-    message: "Reset Password Link is send to you mail",
+    message: "Reset Password Link has been sent to your email",
   });
 });
 
+
 export const resetPassword = TryCatch(async (req, res) => {
-  const decodedData = jwt.verify(req.query.token, process.env.Forgot_Secret);
+  try {
+    const { token, newPassword } = req.body;
 
-  const user = await UserSchema.findOne({ email: decodedData.email });
+    // Decode token
+    const decodedData = jwt.verify(token, process.env.Forgot_Secret);
 
-  if (!user)
-    return res.status(404).json({
-      message: "No user with this email",
+    // Find user
+    const user = await UserSchema.findOne({ 
+      email: decodedData.email, 
+      resetPasswordToken: token 
     });
 
-  if (user.resetPasswordExpire === null)
-    return res.status(400).json({
-      message: "Token Expired",
-    });
+    if (!user) {
+      return res.status(404).json({ message: "Invalid or expired token" });
+    }
 
-  if (user.resetPasswordExpire < Date.now()) {
-    return res.status(400).json({
-      message: "Token Expired",
+    // Check expiry
+    if (!user.resetPasswordExpire || user.resetPasswordExpire < Date.now()) {
+      return res.status(400).json({ message: "Token Expired" });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpire = null;
+    await user.save();
+
+    res.json({ message: "Password Reset Successful" });
+  } catch (err) {
+    res.status(500).json({ 
+      status: 500, 
+      message: "Error resetting password", 
+      error: err.message 
     });
   }
-
-  const password = await bcrypt.hash(req.body.password, 10);
-
-  user.password = password;
-
-  user.resetPasswordExpire = null;
-
-  await user.save();
-
-  res.json({ message: "Password Reset" });
 });
+
+
+
+
+
 
 
 export const updateStatus = TryCatch(async (req, res) => {
