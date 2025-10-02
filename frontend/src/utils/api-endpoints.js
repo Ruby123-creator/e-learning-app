@@ -17,4 +17,5 @@ export const API_ENDPOINTS = {
   GET_ALL_CHAPTERS: `${baseUrl}/course/getAllChapters`,
   ADD_TOPICS: `${baseUrl}/addTopics`,
   ADD_CHAPTERS: `${baseUrl}/addChapters`,
+  ADD_ENQUERY: `${baseUrl}/user/enquiries`
 };
