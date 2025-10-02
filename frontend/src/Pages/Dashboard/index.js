@@ -1,6 +1,5 @@
 import React from "react";
 import "./style.css";
-import StudentDashboard from "./studentDashboard";
 import { useUI } from "../../context/ui.context";
 import AdminDashboard from "./adminDashboard";
 

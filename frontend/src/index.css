@@ -14,8 +14,8 @@ code {
 }
 /* ===== Scrollbar Styling (Webkit Browsers) ===== */
 ::-webkit-scrollbar {
-  width: 2px;
-  height: 2px; /* For horizontal scrollbar */
+  width: 1px;
+  height: 1px; /* For horizontal scrollbar */
 }
 
 ::-webkit-scrollbar-track {
@@ -24,7 +24,7 @@ code {
 
 ::-webkit-scrollbar-thumb {
   background-color: #888; /* Change scrollbar color */
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
