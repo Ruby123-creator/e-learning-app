@@ -14,8 +14,8 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* {userData.isAdmin ? <AdminDashboard /> : <StudentDashboard user={userData} />} */}
-      {userData.isAdmin ? <AdminDashboard /> : <AdminDashboard /> }
+      {userData.isAdmin ? <AdminDashboard /> : <StudentDashboard user={userData} />}
+      {/* {userData.isAdmin ? <AdminDashboard /> : <AdminDashboard /> } */}
 
     </div>
   );

@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 
 import { API_ENDPOINTS } from "../../utils/api-endpoints";
+import EmptyBox from "../../components/common/empty";
 
 const UserList = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -191,7 +192,9 @@ const UserList = () => {
                   align="center"
                   sx={{ color: "#fff" }}
                 >
-                  No users found.
+                  <EmptyBox
+                    message={"No Users found"}
+                  />
                 </TableCell>
               </TableRow>
             )}

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./subject.css";
 import { API_ENDPOINTS, baseUrl } from "../../utils/api-endpoints";
+import EmptyBox from "../../components/common/empty";
 
 const SECTION_KEYS = {
   Videos: "video",
@@ -31,15 +32,23 @@ const SubjectPage = () => {
 
   // Convert YouTube URL to embed URL
   const getYoutubeEmbedUrl = (url) => {
-    const videoId = url.split("v=")[1];
-    if (!videoId) return url;
-    const ampersandPosition = videoId.indexOf("&");
-    return `https://www.youtube.com/embed/${
-      ampersandPosition !== -1
-        ? videoId.substring(0, ampersandPosition)
-        : videoId
-    }`;
-  };
+  if (!url) return "";
+
+  // Case 1: normal watch?v=...
+  let match = url.match(/(?:\?v=|&v=)([a-zA-Z0-9_-]{11})/);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+
+  // Case 2: shorts/VIDEO_ID
+  match = url.match(/\/shorts\/([a-zA-Z0-9_-]{11})/);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+
+  // Case 3: youtu.be/VIDEO_ID
+  match = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (match) return `https://www.youtube.com/embed/${match[1]}`;
+
+  return "";
+};
+
 
   // Fetch chapters from backend
   useEffect(() => {
@@ -359,7 +368,9 @@ const SubjectPage = () => {
                                 ))
                               )
                             ) : (
-                              <p>No {displayName.toLowerCase()} added yet.</p>
+                              <EmptyBox
+                                message={`No ${displayName.toLowerCase()} added yet.`}
+                              />
                             )}
                           </div>
                         )}
@@ -371,7 +382,7 @@ const SubjectPage = () => {
             </div>
           ))
         ) : (
-          <p>No chapters added yet</p>
+          <EmptyBox message="No subjects added yet" />
         )}
       </div>
     </div>
