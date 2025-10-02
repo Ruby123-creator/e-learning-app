@@ -5,7 +5,6 @@ import "./style.css";
 import { API_ENDPOINTS } from "../../utils/api-endpoints";
 import EmptyBox from "../../components/common/empty";
 
-// Helper to convert normal YouTube URL to embed URL
 const getYoutubeEmbedUrl = (url) => {
   if (!url) return "";
 
