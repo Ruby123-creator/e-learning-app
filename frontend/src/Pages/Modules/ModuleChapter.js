@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./style.css";
 import { API_ENDPOINTS } from "../../utils/api-endpoints";
+import EmptyBox from "../../components/common/empty";
 
 function ModuleChapter() {
   const { subjectName, subjectId } = useParams();
@@ -40,7 +41,9 @@ function ModuleChapter() {
   );
 
   if (loading) return <p>Loading chapters...</p>;
-  if (chapters.length === 0) return <p>No chapters found for {subjectName}</p>;
+if (chapters.length === 0) {
+  return <EmptyBox message={`No chapters found for ${subjectName}`} />;
+}
 
   return (
     <div className="chapter-container">

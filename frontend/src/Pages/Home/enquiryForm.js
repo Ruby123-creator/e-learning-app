@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-
+import { API_ENDPOINTS } from "../../utils/api-endpoints";
+import axios from "axios";
+import toaster from "../../components/common/toaster";
 
 const EnquiryForm = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +18,28 @@ const EnquiryForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Enquiry Submitted:", formData);
-    alert("Your enquiry has been submitted!");
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // destructure formData to match your backend payload
+    const { name, email, phone, studentClass, message } = formData;
+    const payload = {
+      name,
+      email,
+      phoneNumber: phone,      // backend expects phoneNumber
+      class: studentClass,     // backend expects class
+      message,
+    };
+
+    // send POST request
+    const response = await axios.post(API_ENDPOINTS.ADD_ENQUERY, payload);
+
+    console.log("Enquiry Submitted:", response.data);
+    
+    toaster("Your enquiry has been submitted!");
+
+    // reset form
     setFormData({
       name: "",
       email: "",
@@ -28,7 +48,11 @@ const EnquiryForm = () => {
       subject: "",
       message: "",
     });
-  };
+  } catch (error) {
+    console.error("Error submitting enquiry:", error);
+    alert("Something went wrong. Please try again.");
+  }
+};
 
   return (
     <div className="enquiry-form">
