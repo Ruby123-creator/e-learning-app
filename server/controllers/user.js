@@ -77,6 +77,8 @@ export const verifyUser = TryCatch(async (req, res) => {
     phone: verifiedToken.user.phone,
     class: verifiedToken.user.class,
     isAdmin: verifiedToken.user.isAdmin,
+    status: verifiedToken.user.status,
+
   });
 
   return res.status(201).json({
@@ -103,6 +105,13 @@ export const loginUser = TryCatch(async (req,res)=>{
         return res.send({
             status:400,
             message:"Invalid LoginId, No user Exist"
+        })
+    }
+
+    if(user?.status==="deactive"){
+        return res.send({
+            status:400,
+            message:"This email Address is inActive, Please contact to superAdmin"
         })
     }
 

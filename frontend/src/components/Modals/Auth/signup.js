@@ -114,7 +114,7 @@ const SignUpModal = ({ open, setOpen }) => {
             password: formData.password,
             class: formData.class,
             isAdmin: formData.isAdmin,
-            ...(formData.isAdmin && { status: "deactive" }),
+            status: (formData?.isAdmin ? "deactive":"active")
           };
 
       const res = await axios.post(endpoint, payload);

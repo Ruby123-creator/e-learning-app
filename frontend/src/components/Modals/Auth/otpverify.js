@@ -37,7 +37,7 @@ const Otpverify = (props) => {
       };
       const response = await axios.post(API_ENDPOINTS.VERIFY_USER, payload);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Verified successfully");
          toaster("User Registered Successfully")
       }

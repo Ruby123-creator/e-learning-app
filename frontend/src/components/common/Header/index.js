@@ -90,6 +90,7 @@ const HeaderComp = () => {
       <Drawer
         anchor="left"
         open={drawerOpen}
+        style={{backgroundColor:"#0E1111",color:"#f7f7f7"}}
         onClose={toggleDrawer(false)}
         className="drawer"
       >

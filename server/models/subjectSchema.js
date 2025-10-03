@@ -50,6 +50,9 @@ const subjectSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: [
+        "UPSC",
+        "Current Affairs",
+        "Other Competitive Exams",
         "I",
         "II",
         "III",
@@ -78,7 +81,6 @@ const subjectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 // Compound unique index (class + subjectName)
-subjectSchema.index({ class: 1, subjectName: 1 }, { unique: true });
 
 export const Subject = mongoose.model("Subject", subjectSchema);
 export const Chapter = mongoose.model("chapter", chapterSchema);
