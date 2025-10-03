@@ -319,7 +319,7 @@ box-shadow: 10px 10px 14px -13px rgba(151,148,148,0.75);
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #03897e;
+  border-color: var(--theme1color);
   box-shadow: 0 0 5px rgba(3, 137, 126, 0.3);
 }
 
@@ -338,7 +338,7 @@ box-shadow: 10px 10px 14px -13px rgba(151,148,148,0.75);
 }
 
 .submit-button:hover {
-  background-color: #2da99f;
+  background-color: #272626;
 }
 .about-page {
   padding: 2rem 1rem;
