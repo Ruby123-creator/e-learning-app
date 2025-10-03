@@ -8,7 +8,7 @@ const AboutPage = () => {
         <h1 className="heading">About Us</h1>
 
         <p className="intro">
-          <strong>TOPICWISE INSTITUTE</strong> is a premier educational platform built on over 9 years of rich teaching experience. We are committed to delivering topic-wise, concept-driven learning for students from all streams and backgrounds.
+          <strong>TOPICWISE INSTITUTE</strong> is a premier educational platform built since 2016 of  rich teaching experience. We are committed to delivering topic-wise, concept-driven learning for students from all streams and backgrounds.
         </p>
 
         <p className="intro">
