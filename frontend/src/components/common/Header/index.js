@@ -62,12 +62,18 @@ const HeaderComp = () => {
               </li>
             ))}
             <li>
-              
-              {isLogin ?<span onClick={handleProfileClick}><span>
-                <AccountCircleRoundedIcon  />
-              </span> <span>{userData?.username}</span></span> : <span>
-                <AccountCircleRoundedIcon onClick={handleProfileClick} />
-              </span>}
+              {isLogin ? (
+                <span onClick={handleProfileClick}>
+                  <span>
+                    <AccountCircleRoundedIcon />
+                  </span>{" "}
+                  <span>{userData?.username}</span>
+                </span>
+              ) : (
+                <span>
+                  <AccountCircleRoundedIcon onClick={handleProfileClick} />
+                </span>
+              )}
             </li>
           </ul>
         </div>
@@ -88,6 +94,30 @@ const HeaderComp = () => {
         className="drawer"
       >
         <div className="drawerContent" onClick={toggleDrawer(false)}>
+          <div
+            className="drawerLogo"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "16px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              window.location.href = "/";
+            }}
+          >
+            <img src={header} alt="logo" width={30} />
+            <span
+              style={{
+                marginLeft: "10px",
+                fontSize: "16px",
+                fontWeight: "600",
+                color: "#ffffffff",
+              }}
+            >
+              Topicwise Institute
+            </span>
+          </div>
           <List>
             {menuItems.map((item) => (
               <ListItem button key={item.label} component="a" href={item.link}>
@@ -102,6 +132,7 @@ const HeaderComp = () => {
                     ? JSON.parse(localStorage.getItem("loginData")).username
                     : "Login / Signup"
                 }
+                sx={{ cursor: "pointer" }}
               />
             </ListItem>
           </List>
