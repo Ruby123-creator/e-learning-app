@@ -282,6 +282,10 @@ const UserList = () => {
                 }}
               >
                 <MenuItem value="">All</MenuItem>
+                <MenuItem value="UPSC">UPSC</MenuItem>
+                <MenuItem value="Current Affairs">Current Affairs</MenuItem>
+                <MenuItem value="Other Competitive Exams">Other Competitive Exams</MenuItem>
+
                 <MenuItem value="VI">VI</MenuItem>
                 <MenuItem value="VII">VII</MenuItem>
                 <MenuItem value="VIII">VIII</MenuItem>

@@ -69,7 +69,7 @@ const Courses = () => {
       <div className="filters">
         <select name="class" onChange={handleFilterChange} value={filters.class}>
           <option value="">All Classes</option>
-          {["VI", "VII", "VIII", "IX", "X", "XI", "XII"].map((cls) => (
+          {["UPSC","Current Affairs","Other Competitive Exams","VI", "VII", "VIII", "IX", "X", "XI", "XII"].map((cls) => (
             <option key={cls} value={cls}>{`Class ${cls}`}</option>
           ))}
         </select>

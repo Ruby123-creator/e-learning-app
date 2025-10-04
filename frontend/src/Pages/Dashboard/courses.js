@@ -145,6 +145,10 @@ const Courses = () => {
                 disabled={loading}
               >
                 <option value="">Select Class</option>
+                <option value="UPSC">UPSC</option>
+                <option value="Current Affairs">Current Affairs</option>
+                <option value="Other Competitive Exams">Other Competitive Exams</option>
+
                 <option value="VI">Class VI</option>
                 <option value="VII">Class VII</option>
                 <option value="VIII">Class VIII</option>
