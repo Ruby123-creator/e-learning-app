@@ -239,7 +239,7 @@ const SignUpModal = ({ open, setOpen }) => {
                   onChange={handleChange}
                 >
                   <option value="">-- Select --</option>
-                  {["VI", "VII", "VIII", "IX", "X", "XI", "XII"].map((cls) => (
+                  {["uPSC","Current Affairs","Other Competitive Exams","VI", "VII", "VIII", "IX", "X", "XI", "XII"].map((cls) => (
                     <option key={cls} value={cls}>
                       Class {cls}
                     </option>

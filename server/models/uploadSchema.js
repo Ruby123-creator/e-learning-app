@@ -21,7 +21,9 @@ const uploadSchema = new mongoose.Schema(
     },
     className: {
       type: String,
-      enum: ["VI", "VII", "VIII", "IX", "X", "XI", "XII"],
+      enum: ["UPSC",
+        "Current Affairs",
+        "Other Competitive Exams","VI", "VII", "VIII", "IX", "X", "XI", "XII"],
     },
     subject: {
       type: String,
