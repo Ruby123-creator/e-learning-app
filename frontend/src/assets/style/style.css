@@ -73,9 +73,9 @@ box-shadow: 10px 10px 14px -13px rgba(151,148,148,0.75);
 
 /* Drawer styling */
 
-.drawer .css-cyqh1t-MuiPaper-root-MuiDrawer-paper {
-  background-color: var(--theme1color);
-  color: var(--theme2color);
+.drawer .MuiDrawer-paper {
+  background-color: var(--theme1color) !important;
+  color: var(--theme2color) !important;
 }
 .drawerContent {
   width: 250px;
