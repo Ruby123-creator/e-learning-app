@@ -21,11 +21,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use(express.json());//Parses incoming JSON payloads.
 app.use(express.urlencoded({extended:true}));//Parses URL-encoded payloads. extended: true allows nested objects.
-app.use(cors({
-  origin: "*"
-}));
-app.use(cors()); //Middleware that enables CORS (Cross-Origin Resource Sharing). This allows the server to handle requests from different origins.
 
+app.use(cors({
+  origin: "https://topicwise.vercel.app", // replace with your frontend domain
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use('/uploads',express.static('uploads'));//Serves static files from the uploads directory when requested via /uploads.
 app.get('/',(req,res)=>{
     return res.send("my server is running");
