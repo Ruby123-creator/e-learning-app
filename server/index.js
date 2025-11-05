@@ -13,6 +13,30 @@ import swaggerSpecs from './swagger.js';
 
 
 dotenv.config();
+const allowedOrigins = [
+  "https://topicwise.vercel.app",
+  "http://localhost:3000"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow mobile/postman
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.log("❌ CORS blocked for:", origin);
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+// ✅ Must add this for preflight requests
+app.options("*", cors());
 const app = express();  //Used to create the server and manage routes.
 const port = process.env.PORT||8000
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
@@ -22,12 +46,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use(express.json());//Parses incoming JSON payloads.
 app.use(express.urlencoded({extended:true}));//Parses URL-encoded payloads. extended: true allows nested objects.
 
-app.use(cors({
-  origin: "https://topicwise.vercel.app", // replace with your frontend domain
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
-app.options("*", cors());
+
 app.use('/uploads',express.static('uploads'));//Serves static files from the uploads directory when requested via /uploads.
 app.get('/',(req,res)=>{
     return res.send("my server is running");
