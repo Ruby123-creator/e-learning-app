@@ -27,6 +27,7 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+app.options("*", cors());
 app.use('/uploads',express.static('uploads'));//Serves static files from the uploads directory when requested via /uploads.
 app.get('/',(req,res)=>{
     return res.send("my server is running");
