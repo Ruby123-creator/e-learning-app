@@ -3,25 +3,28 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.js';
 import courseRouter from './routes/courses.js';
 import adminRouter from './routes/admin.js';
-import uploadRouter from './routes/upload.js'
-import subjectRouter from './routes/subject.js'
+import uploadRouter from './routes/upload.js';
+import subjectRouter from './routes/subject.js';
 import { connectDB } from './database/db.js';
 import cors from 'cors';
-
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpecs from './swagger.js';
 
-
 dotenv.config();
+
+const app = express(); // ✅ Create app FIRST
+
+// ✅ Define allowed origins
 const allowedOrigins = [
   "https://topicwise.vercel.app",
   "http://localhost:3000"
 ];
 
+// ✅ Apply CORS middleware BEFORE routes
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // allow mobile/postman
+      if (!origin) return callback(null, true); // allow Postman / server-to-server
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       } else {
@@ -35,32 +38,38 @@ app.use(
   })
 );
 
-// ✅ Must add this for preflight requests
+// ✅ Allow preflight requests
 app.options("*", cors());
-const app = express();  //Used to create the server and manage routes.
-const port = process.env.PORT||8000
+
+// ✅ Middleware for body parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
+// ✅ Serve static files
+app.use('/uploads', express.static('uploads'));
 
+// ✅ Default route
+app.get('/', (req, res) => {
+  return res.send("✅ Server is running properly with CORS enabled");
+});
 
-app.use(express.json());//Parses incoming JSON payloads.
-app.use(express.urlencoded({extended:true}));//Parses URL-encoded payloads. extended: true allows nested objects.
-
-
-app.use('/uploads',express.static('uploads'));//Serves static files from the uploads directory when requested via /uploads.
-app.get('/',(req,res)=>{
-    return res.send("my server is running");
-})
-// These are separate route handlers that organize endpoints related to users, courses, and admins.
-app.use('/api',userRoutes);
-app.use('/api',courseRouter);
+// ✅ API routes
+app.use('/api', userRoutes);
+app.use('/api', courseRouter);
 app.use('/api', adminRouter);
 app.use('/api', uploadRouter);
 app.use('/api', subjectRouter);
 
-app.listen(port,()=>{
-  console.log(`http://localhost:${port}`);
-})
+// ✅ Connect DB and start server
+connectDB();
 
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+  console.log(`✅ Server running on http://localhost:${port}`);
+});
 
-
+// ✅ Export for Vercel serverless
+export default app;
